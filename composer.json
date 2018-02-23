@@ -1,5 +1,5 @@
 {
-    "name": "smedlock/328/routing-demo",
+    "name": "final-project",
     "authors":[
         {
           "name": "Scott Medlock",
@@ -14,5 +14,8 @@
     ],
         "require": {
         "bcosca/fatfree-core": "dev-master"
+    },
+    "autoload": {
+        "classmap": ["classes/"]
     }
 }
