@@ -14,8 +14,8 @@ function snakeCell(x, y, snakeSize, gap, background) {
     this.x = x;
     this.y = y;
     this.element = document.createElement("div");
-    this.element.style.width = snakeSize - gap + "px";
-    this.element.style.height = snakeSize - gap + "px";
+    this.element.style.width = snakeSize - 2 * gap + "px";
+    this.element.style.height = snakeSize - 2 * gap + "px";
     this.element.style.background = background;
     this.element.style.position = "absolute";
 
@@ -36,15 +36,18 @@ function snakeCell(x, y, snakeSize, gap, background) {
 //newElement1.style.left = snake1.y + 'px';
 //document.getElementById("container").appendChild(newElement1);
 
-console.log("we tried");
+console.log("we triedf");
 
 var direction = 1; // 0 up, 1 right, 2 down, 3 left
 
 var elements = [];
-var snakeElements = [];
-//for (i = 0; i < 6; i++) {
-//    snakeElements[i] = new snakeCell()
-//}
+var snakeCells = [];
+for (i = 0; i < 6; i++) {
+    snakeCells[i] = new snakeCell(5 + i, 10, 20, 1, "white");
+    snakeCells[i].element.style.top = snakeCells[i].y * board.cellSize + 1 + "px";
+    snakeCells[i].element.style.left = snakeCells[i].x * board.cellSize + 1 + "px";
+    document.getElementById("gameboard").appendChild(snakeCells[i].element);
+}
 
 var gameboard = document.getElementById("gameboard");
 gameboard.style.background = "black";
@@ -63,14 +66,13 @@ for (i = 0; i < 5; i++) {
 }
 
 document.addEventListener('keydown', function(event) {
-    console.log("we pressed the down key " + event.keyCode);
-    if (event.keyCode == 87) {
+    if (event.keyCode == 87) { // w
         direction = 0;
-    } else if (event.keyCode == 68) {
+    } else if (event.keyCode == 68) { // d
         direction = 1;
-    } else if (event.keyCode == 83) {
+    } else if (event.keyCode == 83) { // s
         direction = 2;
-    } else if (event.keyCode == 65) {
+    } else if (event.keyCode == 65) { // a
         direction = 3;
     }
 });
@@ -78,15 +80,15 @@ document.addEventListener('keydown', function(event) {
 function startGame() {
     //var elem = document.getElementById("animate");
     var elem = elements[elements.length - 1];
-    var posX = 80;
-    var posY = 100;
+    var posX = 200;
+    var posY = 200;
     var id = setInterval(frame, 250);
     function frame() {
 
         // cases:   head is in empty space
         //          head collides with wall or itself
         //          head is on same cell as food
-
+        /*
         elem = elements.shift();
         if (direction == 0) {
             posY -= 20;
@@ -100,6 +102,21 @@ function startGame() {
         elem.style.top = 1 + posY + 'px';
         elem.style.left = 1 + posX + 'px';
         elements.push(elem);
+        */
+
+        snakeElem = snakeCells.shift();
+        if (direction == 0) {
+            posY -= 20;
+        } else if (direction == 1) {
+            posX += 20;
+        } else if (direction == 2) {
+            posY += 20;
+        } else {
+            posX -= 20;
+        }
+        snakeElem.element.style.top = 1 + posY + 'px';
+        snakeElem.element.style.left = 1 + posX + 'px';
+        snakeCells.push(snakeElem);
     }
 }
 
