@@ -25,22 +25,31 @@ function snakeCell(x, y, snakeSize, gap, background) {
     //}
 }
 
-var snake1 = new snakeCell(41, 81);
+//var snake1 = new snakeCell(41, 81);
 
-var newElement1 = document.createElement("div");
-newElement1.style.width = "18px";
-newElement1.style.height = "18px";
-newElement1.style.background = "white";
-newElement1.style.position = "absolute";
-newElement1.style.top = snake1.x + 'px';
-newElement1.style.left = snake1.y + 'px';
-document.getElementById("container").appendChild(newElement1);
+//var newElement1 = document.createElement("div");
+//newElement1.style.width = "18px";
+//newElement1.style.height = "18px";
+//newElement1.style.background = "white";
+//newElement1.style.position = "absolute";
+//newElement1.style.top = snake1.x + 'px';
+//newElement1.style.left = snake1.y + 'px';
+//document.getElementById("container").appendChild(newElement1);
 
-console.log("we triedaaasd");
+console.log("we tried");
 
 var direction = 1; // 0 up, 1 right, 2 down, 3 left
 
 var elements = [];
+var snakeElements = [];
+//for (i = 0; i < 6; i++) {
+//    snakeElements[i] = new snakeCell()
+//}
+
+var gameboard = document.getElementById("gameboard");
+gameboard.style.background = "black";
+gameboard.style.width = "400px";
+gameboard.style.height = "400px";
 
 for (i = 0; i < 5; i++) {
     elements[i] = document.createElement("div");
@@ -50,20 +59,8 @@ for (i = 0; i < 5; i++) {
     elements[i].style.position = "absolute";
     elements[i].style.top = 101 + 'px';
     elements[i].style.left = 1 + 20 * i + 'px';
-    document.getElementById("container").appendChild(elements[i]);
+    document.getElementById("gameboard").appendChild(elements[i]);
 }
-//var div = document.createElement("div");
-//div.style.width = "18px";
-//div.style.height = "18px";
-//div.style.background = "white";
-//div.style.position = "absolute";
-//div.style.top = 1 + 'px';
-//div.style.left = 101 + 'px';
-
-//document.getElementById("container").appendChild(div);
-
-
-
 
 document.addEventListener('keydown', function(event) {
     console.log("we pressed the down key " + event.keyCode);
@@ -78,20 +75,18 @@ document.addEventListener('keydown', function(event) {
     }
 });
 
-function myMove() {
+function startGame() {
     //var elem = document.getElementById("animate");
     var elem = elements[elements.length - 1];
     var posX = 80;
     var posY = 100;
     var id = setInterval(frame, 250);
     function frame() {
-        /*if (pos == 350) {
-            clearInterval(id);
-        } else {
-            pos++;
-            elem.style.top = pos + 'px';
-            elem.style.left = pos + 'px';
-        }*/
+
+        // cases:   head is in empty space
+        //          head collides with wall or itself
+        //          head is on same cell as food
+
         elem = elements.shift();
         if (direction == 0) {
             posY -= 20;
@@ -107,3 +102,5 @@ function myMove() {
         elements.push(elem);
     }
 }
+
+gameboard.addEventListener("click", startGame);
