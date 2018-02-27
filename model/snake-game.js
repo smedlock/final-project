@@ -25,9 +25,13 @@ function gameBoard(widthX, heightY, cellSize, gameBoardId) {
     this.collision = function() {
         if (this.headPosX < 0 || this.headPosY < 0 || this.headPosX >= this.widthX || this.headPosY >= this.heightY) {
             return true;
-        } else {
-            return false;
         }
+        for (i = 0; i < this.snakeCells.length - 2; i++) {
+            if (this.headPosX == this.snakeCells[i].x && this.headPosY == this.snakeCells[i].y) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 
@@ -56,7 +60,7 @@ function snakeCell(x, y, cellSize, gap, background) {
     //}
 }
 
-console.log("we trieda");
+console.log("we triedabcd");
 
 var board = new gameBoard(20, 20, 20, "gameboard");
 var direction = 1; // 0 up, 1 right, 2 down, 3 left
