@@ -29,13 +29,19 @@ $f3->route('GET|POST /register', function($f3){
         //$f3->set('username', $username);
         //$f3->set('bio', $bio);
 
-        //$success = addUser($username, $password, $bio);
+        $success = addUser($username, $password, $bio);
 
-        //echo $success;
+        echo "<p>$success</p>";
 
     }
    $template = new Template();
    echo $template->render('views/register.html');
+});
+
+$f3->route('GET /results', function() {
+   $result = getUser();
+
+   echo $result;
 });
 
 $f3->run();

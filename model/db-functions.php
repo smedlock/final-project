@@ -19,10 +19,17 @@ function getUser()
 {
     global $dbh;
     // Define query
+    $sql= "SELECT * FROM snake-members";
     // Prepare statement
+    $statement = $dbh->prepare($sql);
     // Bind parameters
+
     // Execute statement
+    $statement->execute();
     // Return results
+    $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    return $result;
 }
 
 function addUser($username, $password, $bio)

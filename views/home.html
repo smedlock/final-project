@@ -17,74 +17,80 @@
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <a class="navbar-brand">Snake Game</a>
-                <button type="button" class="btn btn-default navbar-btn navbar-right">Sign In</button>
-                <button type="button" class="btn btn-default navbar-btn navbar-right">Sign Up</button>
+                <button type="button" class="btn btn-default navbar-btn navbar-right">
+                    Sign In
+                </button>
+                <a href="./register">
+                    <button type="button" class="btn btn-default navbar-btn navbar-right">
+                        Sign Up
+                    </button>
+                </a>
             </div>
         </div>
     </nav>
-    <div class="container col-md-4 float-left">
-        <p>
+    <div class="container d-flex flex-row">
+        <div class="container col-md-4 float-left">
+            <p>
             <h3>Player Scoreboard</h3>
-        <table id="scoreboard" class="table table-striped table-bordered">
-            <thead class="thead-inverse">
-            <tr><th>Username</th>
-                <th>High Score</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr><td>username</td>
-                <td>high score</td>
-            </tr>
-            <tr><td>username</td>
-                <td>high score</td>
-            </tr>
-            <tr><td>username</td>
-                <td>high score</td>
-            </tr>
-            <tr><td>username</td>
-                <td>high score</td>
-            </tr>
-            </tbody>
-        </table>
-        </p>
+            <table id="scoreboard" class="table table-striped table-bordered">
+                <thead class="thead-inverse">
+                <tr><th>Username</th>
+                    <th>High Score</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr><td>username</td>
+                    <td>high score</td>
+                </tr>
+                <tr><td>username</td>
+                    <td>high score</td>
+                </tr>
+                <tr><td>username</td>
+                    <td>high score</td>
+                </tr>
+                <tr><td>username</td>
+                    <td>high score</td>
+                </tr>
+                </tbody>
+            </table>
+            </p>
+        </div>
+
+        <div id="gameboard" name="gameboard" class="container col-md-4">
+        </div>
+
+        <div class="container col-md-4 float-right">
+            <p>
+            <h3>Premium Scoreboard</h3>
+            <table id="premiumScoreboard" class="table table-striped table-bordered">
+                <thead class="thead-inverse">
+                <tr><th>Username</th>
+                    <th>Longest Snake</th>
+                    <th>Total Snake Length</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr><td>username</td>
+                    <td>longest snake</td>
+                    <td>total snake</td>
+                </tr>
+                <tr><td>username</td>
+                    <td>longest snake</td>
+                    <td>total snake</td>
+                </tr>
+                <tr><td>username</td>
+                    <td>longest snake</td>
+                    <td>total snake</td>
+                </tr>
+                <tr><td>username</td>
+                    <td>longest snake</td>
+                    <td>total snake</td>
+                </tr>
+                </tbody>
+            </table>
+            </p>
+        </div>
     </div>
-
-    <div id="gameboard" name="gameboard" class="container col-md-4">
-
-    </div>
-
-    <div class="container col-md-4">
-        <p>
-        <h3>Premium Scoreboard</h3>
-        <table id="premiumScoreboard" class="table table-striped table-bordered">
-            <thead class="thead-inverse">
-            <tr><th>Username</th>
-                <th>Longest Snake</th>
-                <th>Total Snake Length</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr><td>username</td>
-                <td>longest snake</td>
-                <td>total snake</td>
-            </tr>
-            <tr><td>username</td>
-                <td>longest snake</td>
-                <td>total snake</td>
-            </tr>
-            <tr><td>username</td>
-                <td>longest snake</td>
-                <td>total snake</td>
-            </tr>
-            <tr><td>username</td>
-                <td>longest snake</td>
-                <td>total snake</td>
-            </tr>
-            </tbody>
-        </table>
-        </p>
-    </div>
-
 
     <!-- Javascript, JQuery & Ajax -->
     <script src="model/snake-game.js"></script>
