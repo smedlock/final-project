@@ -21,6 +21,14 @@ function gameBoard(widthX, heightY, cellSize, gameBoardId) {
             this.headPosX -= 1;
         }
     }
+
+    this.collision = function() {
+        if (this.headPosX < 0 || this.headPosY < 0 || this.headPosX >= this.widthX || this.headPosY >= this.heightY) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 
 function snakeCell(x, y, cellSize, gap, background) {
@@ -48,15 +56,15 @@ function snakeCell(x, y, cellSize, gap, background) {
     //}
 }
 
-console.log("we trsied");
+console.log("we trieda");
 
 var board = new gameBoard(20, 20, 20, "gameboard");
-
 var direction = 1; // 0 up, 1 right, 2 down, 3 left
-var snakeCells = [];
 
+// just creating 6 snake blocks
 for (i = 0; i < 6; i++) {
-    snakeCells[i] = new snakeCell(5 + i, 10, 20, 1, "white");
+    board.snakeCells.push(new snakeCell(5 + i, 10, 20, 1, "white"));
+    //snakeCells[i] = new snakeCell(5 + i, 10, 20, 1, "white");
 }
 
 document.addEventListener('keydown', function(event) {
@@ -73,7 +81,7 @@ document.addEventListener('keydown', function(event) {
 
 function startGame() {
     //var elem = document.getElementById("animate");
-    var elem = snakeCells[snakeCells.length - 1];
+    var elem = board.snakeCells[board.snakeCells.length - 1];
     board.headPosX = elem.x;
     board.headPosY = elem.y;
     var id = setInterval(frame, 500);
@@ -83,10 +91,14 @@ function startGame() {
         //          head collides with wall or itself
         //          head is on same cell as food
 
-        snakeElem = snakeCells.shift();
+        snakeElem = board.snakeCells.shift();
         board.move(direction);
         snakeElem.changeXY(board.headPosX, board.headPosY);
-        snakeCells.push(snakeElem);
+        board.snakeCells.push(snakeElem);
+        if (board.collision()) {
+            console.log(board.headPosX + " " + board.headPosY);
+            clearInterval(id);
+        }
     }
 }
 
