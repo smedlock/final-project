@@ -44,7 +44,11 @@ function gameBoard(widthX, heightY, cellSize, gameBoardId) {
         return (this.headPosX == this.food.x && this.headPosY == this.food.y);
     }
 
-
+    this.moveFood = function() {
+        var newX = Math.floor(Math.random() * this.widthX);
+        var newY = Math.floor(Math.random() * this.heightY);
+        this.food.changeXY(newX, newY);
+    }
 }
 
 function snakeCell(x, y, cellSize, gap, background) {
@@ -65,14 +69,9 @@ function snakeCell(x, y, cellSize, gap, background) {
         this.element.style.top = 1 + y * cellSize + 'px';
         this.element.style.left = 1 + x * cellSize + 'px';
     }
-
-    //this.changeXY = function(x, y) {
-    //    this.x = x;
-    //    this.y = y;
-    //}
 }
 
-console.log("we tried");
+console.log("we triedfdsafds");
 
 var board = new gameBoard(20, 20, 20, "gameboard");
 var direction = 1; // 0 up, 1 right, 2 down, 3 left
@@ -110,6 +109,8 @@ function startGame() {
         board.move(direction);
         if (board.onFood()) {
             board.snakeCells.push(new snakeCell(board.headPosX, board.headPosY, 20, 1, "green"));
+            // place food on a random cell
+            board.moveFood();
         } else {
             snakeElem = board.snakeCells.shift();
             snakeElem.changeXY(board.headPosX, board.headPosY);
