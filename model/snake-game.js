@@ -3,6 +3,7 @@ function gameBoard(widthX, heightY, cellSize, gameBoardId) {
     this.heightY = heightY;
     this.headPosX = 0;
     this.headPosY = 0;
+    this.lastDirection = 1; // right
     this.snakeCells = [];
     this.food = new snakeCell(5, 5, 20, 1, "red");
     this.cellSize = cellSize;
@@ -14,12 +15,16 @@ function gameBoard(widthX, heightY, cellSize, gameBoardId) {
     this.move = function(direction) {
         if (direction == 0) {
             this.headPosY -= 1;
+            this.lastDirection = 0;
         } else if (direction == 1) {
             this.headPosX += 1;
+            this.lastDirection = 1;
         } else if (direction == 2) {
             this.headPosY += 1;
+            this.lastDirection = 2;
         } else {
             this.headPosX -= 1;
+            this.lastDirection = 3;
         }
     }
 
@@ -67,25 +72,25 @@ function snakeCell(x, y, cellSize, gap, background) {
     //}
 }
 
-console.log("we trieda");
+console.log("we tried");
 
 var board = new gameBoard(20, 20, 20, "gameboard");
 var direction = 1; // 0 up, 1 right, 2 down, 3 left
 
 // just creating 6 snake blocks
 for (i = 0; i < 6; i++) {
-    board.snakeCells.push(new snakeCell(5 + i, 10, 20, 1, "white"));
+    board.snakeCells.push(new snakeCell(5 + i, 10, 20, 1, "green"));
     //snakeCells[i] = new snakeCell(5 + i, 10, 20, 1, "white");
 }
 
 document.addEventListener('keydown', function(event) {
-    if (event.keyCode == 87) { // w
+    if (event.keyCode == 38 && board.lastDirection != 2) { // up
         direction = 0;
-    } else if (event.keyCode == 68) { // d
+    } else if (event.keyCode == 39 && board.lastDirection != 3) { // right
         direction = 1;
-    } else if (event.keyCode == 83) { // s
+    } else if (event.keyCode == 40 && board.lastDirection != 0) { // down
         direction = 2;
-    } else if (event.keyCode == 65) { // a
+    } else if (event.keyCode == 37 && board.lastDirection != 1) { // left
         direction = 3;
     }
 });
@@ -95,7 +100,7 @@ function startGame() {
     var elem = board.snakeCells[board.snakeCells.length - 1];
     board.headPosX = elem.x;
     board.headPosY = elem.y;
-    var id = setInterval(frame, 150);
+    var id = setInterval(frame, 100);
     function frame() {
 
         // cases:   head is in empty space
@@ -104,7 +109,7 @@ function startGame() {
 
         board.move(direction);
         if (board.onFood()) {
-            board.snakeCells.push(new snakeCell(board.headPosX, board.headPosY, 20, 1, "white"));
+            board.snakeCells.push(new snakeCell(board.headPosX, board.headPosY, 20, 1, "green"));
         } else {
             snakeElem = board.snakeCells.shift();
             snakeElem.changeXY(board.headPosX, board.headPosY);
@@ -118,3 +123,12 @@ function startGame() {
 }
 
 gameboard.addEventListener("click", startGame);
+
+
+// prevent arrow keys from scrolling
+window.addEventListener("keydown", function(e) {
+    // arrow keys
+    if([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+        e.preventDefault();
+    }
+}, false);
