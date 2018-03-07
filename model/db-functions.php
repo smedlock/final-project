@@ -36,7 +36,7 @@ function addUser($username, $password, $bio)
 {
     global $dbh;
     // Define query
-    $sql = "INSERT INTO snake-members(username, password, bio) VALUES (:username, :password, :bio)";
+    $sql = "INSERT INTO `snake-members` (username, password, bio) VALUES (:username, :password, :bio)";
 
     // Prepare statement
     $statement = $dbh->prepare($sql);
