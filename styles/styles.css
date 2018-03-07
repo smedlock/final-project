@@ -1,0 +1,13 @@
+.center-div
+{
+    margin: auto;
+    width: 100%;
+    padding: 10px;
+    position: relative;
+}
+
+.game-space
+{
+    padding-left: 15px;
+    position: relative;
+}

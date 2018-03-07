@@ -4,9 +4,10 @@ error_reporting(E_ALL);
 require_once('vendor/autoload.php');
 require_once 'model/db-functions.php';
 
-session_start();
+
 
 $f3 = Base::instance();
+session_start();
 $f3->set('DEBUG', 3);
 
 $dbh = connect();
@@ -26,22 +27,29 @@ $f3->route('GET|POST /register', function($f3){
        // $premium = isset($_POST['premium']);
 
         // Set templating variables
-        //$f3->set('username', $username);
-        //$f3->set('bio', $bio);
+        $_SESSION['username'] = $username;
+        $_SESSION['password'] = $password;
+        $_SESSION['bio'] = $bio;
 
-        $success = addUser($username, $password, $bio);
+        print_r($_POST);
 
-        echo "<p>$success</p>";
-
+        $f3->reroute("./results");
     }
    $template = new Template();
    echo $template->render('views/register.html');
 });
 
-$f3->route('GET /results', function() {
-   $result = getUser();
+$f3->route('GET|POST /results', function($f3) {
+   $username = $_SESSION['username'];
+   $password = $_SESSION['password'];
+   $bio = $_SESSION['bio'];
 
-   echo $result;
+   echo "$username, $password, $bio";
+   $success = addUser($username, $password, $bio);
+
+   print_r($success);
+
+
 });
 
 $f3->run();
