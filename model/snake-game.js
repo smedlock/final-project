@@ -4,7 +4,7 @@ function gameBoard(widthX, heightY, cellSize, gameBoardId) {
     this.headPosX = 0;
     this.headPosY = 0;
     this.lastDirection = 1; // right
-    this.snakeCells = [];
+    this.snakeCells = []; // the front of the array is the back of the snake
     this.food = new snakeCell(5, 5, 20, 1, "red");
     this.cellSize = cellSize;
     this.gameBoardElement = document.getElementById(gameBoardId);
@@ -71,7 +71,7 @@ function snakeCell(x, y, cellSize, gap, background) {
     }
 }
 
-console.log("we triedfdsafds");
+console.log("we tried");
 
 var board = new gameBoard(20, 20, 20, "gameboard");
 var direction = 1; // 0 up, 1 right, 2 down, 3 left
@@ -109,6 +109,7 @@ function startGame() {
         board.move(direction);
         if (board.onFood()) {
             board.snakeCells.push(new snakeCell(board.headPosX, board.headPosY, 20, 1, "green"));
+
             // place food on a random cell
             board.moveFood();
         } else {
@@ -118,6 +119,8 @@ function startGame() {
         }
         if (board.collision()) {
             console.log(board.headPosX + " " + board.headPosY);
+            elementToRemove = board.snakeCells.pop();
+            elementToRemove.element.parentNode.removeChild(elementToRemove.element);
             clearInterval(id);
         }
     }
