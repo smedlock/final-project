@@ -47,6 +47,15 @@ function gameBoard(widthX, heightY, cellSize, gameBoardId) {
     this.moveFood = function() {
         var newX = Math.floor(Math.random() * this.widthX);
         var newY = Math.floor(Math.random() * this.heightY);
+
+        // if food is under the snake, put the food at the back of the snake
+        for (i = 0; i < this.snakeCells.length; i++) {
+            if (newX == this.snakeCells[i].x && newY == this.snakeCells[i].y) {
+                newX = this.snakeCells[0].x;
+                newY = this.snakeCells[0].y;
+                break;
+            }
+        }
         this.food.changeXY(newX, newY);
     }
 }
@@ -79,7 +88,6 @@ var direction = 1; // 0 up, 1 right, 2 down, 3 left
 // just creating 6 snake blocks
 for (i = 0; i < 6; i++) {
     board.snakeCells.push(new snakeCell(5 + i, 10, 20, 1, "green"));
-    //snakeCells[i] = new snakeCell(5 + i, 10, 20, 1, "white");
 }
 
 document.addEventListener('keydown', function(event) {
@@ -99,7 +107,7 @@ function startGame() {
     var elem = board.snakeCells[board.snakeCells.length - 1];
     board.headPosX = elem.x;
     board.headPosY = elem.y;
-    var id = setInterval(frame, 100);
+    var id = setInterval(frame, 400);
     function frame() {
 
         // cases:   head is in empty space
@@ -136,3 +144,4 @@ window.addEventListener("keydown", function(e) {
         e.preventDefault();
     }
 }, false);
+
