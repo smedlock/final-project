@@ -26,12 +26,11 @@ $f3->route('GET|POST /register', function($f3){
         $bio = $_POST['bio'];
        // $premium = isset($_POST['premium']);
 
-        // Set templating variables
-        $_SESSION['username'] = $username;
-        $_SESSION['password'] = $password;
-        $_SESSION['bio'] = $bio;
+        // create member object
+        $member = new User($username, $password, $bio);
+        $_SESSION['member'] = $member;
 
-        print_r($_POST);
+        echo $f3->get('member');
 
         $f3->reroute("./results");
     }
@@ -40,14 +39,16 @@ $f3->route('GET|POST /register', function($f3){
 });
 
 $f3->route('GET|POST /results', function($f3) {
-   $username = $_SESSION['username'];
+ /*  $username = $_SESSION['username'];
    $password = $_SESSION['password'];
    $bio = $_SESSION['bio'];
+   $member = $f3->get('member'); */
 
-   echo "$username, $password, $bio";
-   $success = addUser($username, $password, $bio);
+   echo $_SESSION['member'];
 
-   print_r($success);
+   //$success = addUser($username, $password, $bio);
+
+   //print_r($success);
 
 
 });
