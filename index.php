@@ -24,10 +24,18 @@ $f3->route('GET|POST /register', function($f3){
         $password = $_POST['password'];
        // $confirm = $_POST['confirmPass'];
         $bio = $_POST['bio'];
-       // $premium = isset($_POST['premium']);
+       $premium = isset($_POST['premium']);
 
         // create member object
-        $member = new User($username, $password, $bio);
+        if($premium)
+        {
+            $member = new Premium($username, $password, $bio);
+        }
+        else
+        {
+            $member = new User($username, $password, $bio);
+        }
+
         $_SESSION['member'] = $member;
 
         echo $f3->get('member');
@@ -38,17 +46,24 @@ $f3->route('GET|POST /register', function($f3){
    echo $template->render('views/register.html');
 });
 
-$f3->route('GET|POST /results', function($f3) {
- /*  $username = $_SESSION['username'];
-   $password = $_SESSION['password'];
-   $bio = $_SESSION['bio'];
-   $member = $f3->get('member'); */
+$f3->route('GET|POST /results', function() {
 
-   echo $_SESSION['member'];
+   $member = $_SESSION['member'];
+   $username = $member->getUsername();
+   $password = $member->getPassword();
+   $bio = $member->getBiography();
 
-   //$success = addUser($username, $password, $bio);
+    if($member instanceof Premium)
+    {
+        $success = addUser(1, $username, $password, $bio);
+    }
+    else
+    {
+        $success = addUser(0, $username, $password, $bio);
+    }
 
-   //print_r($success);
+
+   print_r($success);
 
 
 });
