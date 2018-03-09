@@ -1,6 +1,13 @@
 <?php
 require '/home/epadilla/final-config.php';
 
+/*
+ * To-do:
+ * - Get users by high score, for normal member scoreboard
+ * - Get users by total snake length, for premium member scoreboard
+ * - Get user by username, if it exists, for username validation
+ */
+
 function connect()
 {
     try {
@@ -15,11 +22,28 @@ function connect()
     }
 }
 
-function getUser()
+function getUsers()
 {
     global $dbh;
     // Define query
     $sql= "SELECT * FROM snake-members";
+    // Prepare statement
+    $statement = $dbh->prepare($sql);
+    // Bind parameters
+
+    // Execute statement
+    $statement->execute();
+    // Return results
+    $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    return $result;
+}
+
+function findUser($username)
+{
+    global $dbh;
+    // Define query
+    $sql= "SELECT * FROM snake-members WHERE username = $username";
     // Prepare statement
     $statement = $dbh->prepare($sql);
     // Bind parameters

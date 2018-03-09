@@ -5,6 +5,8 @@
  * Date: 2/23/2018
  * Time: 10:56 AM
  */
+require_once ('model/db-functions.php');
+
 $errors = array();
 
 function isValidUsername($username)
