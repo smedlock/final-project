@@ -5,7 +5,7 @@ function gameBoard(widthX, heightY, cellSize, gameBoardId) {
     this.headPosY = 0;
     this.lastDirection = 1; // right
     this.snakeCells = []; // the front of the array is the back of the snake
-    this.food = new snakeCell(5, 5, 20, 1, "red");
+    this.food;// = new snakeCell(5, 5, 20, 1, "red");
     this.cellSize = cellSize;
     this.gameBoardElement = document.getElementById(gameBoardId);
     this.gameBoardElement.style.background = "black";
@@ -58,6 +58,26 @@ function gameBoard(widthX, heightY, cellSize, gameBoardId) {
         }
         this.food.changeXY(newX, newY);
     }
+
+    this.reset = function() {
+        $("#gameboard").empty();
+
+        board.snakeCells = [];
+
+        for (i = 0; i < 6; i++) {
+            this.snakeCells.push(new snakeCell(5 + i, 10, 20, 1, "green"));
+        }
+
+        var lastElem = this.snakeCells[board.snakeCells.length - 1];
+        this.headPosX = lastElem.x;
+        this.headPosY = lastElem.y;
+
+        this.food = new snakeCell(5, 5, 20, 1, "red");
+
+        this.moveFood();
+
+        direction = 1;
+    }
 }
 
 function snakeCell(x, y, cellSize, gap, background) {
@@ -70,7 +90,7 @@ function snakeCell(x, y, cellSize, gap, background) {
     this.element.style.position = "absolute";
     this.element.style.top = this.y * cellSize + 1 + "px";
     this.element.style.left = this.x * cellSize + 1 + "px";
-    document.getElementById("gameboard").appendChild(this.element);
+    $("#gameboard").append(this.element);
 
     this.changeXY = function(x, y) {
         this.x = x;
@@ -80,17 +100,17 @@ function snakeCell(x, y, cellSize, gap, background) {
     }
 }
 
-console.log("we tried");
+console.log("we triedfafafa");
 
 var board = new gameBoard(20, 20, 20, "gameboard");
 var direction = 1; // 0 up, 1 right, 2 down, 3 left
 
 // just creating 6 snake blocks
-for (i = 0; i < 6; i++) {
-    board.snakeCells.push(new snakeCell(5 + i, 10, 20, 1, "green"));
-}
+//for (i = 0; i < 6; i++) {
+//    board.snakeCells.push(new snakeCell(5 + i, 10, 20, 1, "green"));
+//}
 
-document.addEventListener('keydown', function(event) {
+$(document).keydown(function(event) {
     if (event.keyCode == 38 && board.lastDirection != 2) { // up
         direction = 0;
     } else if (event.keyCode == 39 && board.lastDirection != 3) { // right
@@ -103,11 +123,11 @@ document.addEventListener('keydown', function(event) {
 });
 
 function startGame() {
-    //var elem = document.getElementById("animate");
-    var elem = board.snakeCells[board.snakeCells.length - 1];
-    board.headPosX = elem.x;
-    board.headPosY = elem.y;
-    var id = setInterval(frame, 400);
+    board.reset();
+    //var elem = board.snakeCells[board.snakeCells.length - 1];
+    //board.headPosX = elem.x;
+    //board.headPosY = elem.y;
+    var id = setInterval(frame, 100);
     function frame() {
 
         // cases:   head is in empty space
@@ -129,12 +149,13 @@ function startGame() {
             console.log(board.headPosX + " " + board.headPosY);
             elementToRemove = board.snakeCells.pop();
             elementToRemove.element.parentNode.removeChild(elementToRemove.element);
+            board.reset();
             clearInterval(id);
         }
     }
 }
 
-gameboard.addEventListener("click", startGame);
+$("#gamestart").click(startGame);
 
 
 // prevent arrow keys from scrolling
