@@ -1,15 +1,17 @@
 <?php
 
+// Turn on error reporting & include required files
 error_reporting(E_ALL);
-require_once('vendor/autoload.php');
-require_once 'model/db-functions.php';
+require_once ('vendor/autoload.php');
+require_once ('model/db-functions.php');
+include ('model/validate.php');
 
-
-
+// Instantiate base, set debug and start session
 $f3 = Base::instance();
 session_start();
 $f3->set('DEBUG', 3);
 
+// Open database connection
 $dbh = connect();
 
 $f3->route('GET /', function(){
@@ -22,25 +24,34 @@ $f3->route('GET|POST /register', function($f3){
     {
         $username = $_POST['username'];
         $password = $_POST['password'];
-       // $confirm = $_POST['confirmPass'];
+        $confirm = $_POST['confirmPass'];
         $bio = $_POST['bio'];
-       $premium = isset($_POST['premium']);
+        $premium = isset($_POST['premium']);
 
-        // create member object
-        if($premium)
+       // validate username & password
+        $errors = validate($password, $confirm);
+        $success = (sizeof($errors) == 0);
+
+        echo $success;
+        print_r($errors);
+
+        if($success == 1)
         {
-            $member = new Premium($username, $password, $bio);
+            // create member object
+            if($premium)
+            {
+                $member = new Premium($username, $password, $bio);
+            }
+            else
+            {
+                $member = new User($username, $password, $bio);
+            }
+
+            $_SESSION['member'] = $member;
+
+
+            $f3->reroute("./results");
         }
-        else
-        {
-            $member = new User($username, $password, $bio);
-        }
-
-        $_SESSION['member'] = $member;
-
-        echo $f3->get('member');
-
-        $f3->reroute("./results");
     }
    $template = new Template();
    echo $template->render('views/register.html');
