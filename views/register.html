@@ -28,10 +28,13 @@
                <input type="text" id="username" name="username" value="{{ @username }}">
                <br>
                <label>Password: </label><br>
-               <input type="text" id="password" name="password">
+               <input type="password" id="password" name="password"
+                      pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                      title="Must contain at least one number and one uppercase and
+                      lowercase letter, and at least 8 or more characters" required>
                <br>
                <label>Re-Enter Password: </label><br>
-               <input type="text" id="confirmPass" name="confirmPass">
+               <input type="password" id="confirmPass" name="confirmPass">
 
            </div>
             <div class="col-md-6">

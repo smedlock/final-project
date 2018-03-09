@@ -32,16 +32,17 @@ function getUser()
     return $result;
 }
 
-function addUser($username, $password, $bio)
+function addUser($premium, $username, $password, $bio)
 {
     global $dbh;
     // Define query
-    $sql = "INSERT INTO `snake-members` (username, password, bio) VALUES (:username, :password, :bio)";
+    $sql = "INSERT INTO `snake-members` (premium, username, password, bio) VALUES (:premium, :username, :password, :bio)";
 
     // Prepare statement
     $statement = $dbh->prepare($sql);
 
     // Bind parameters
+    $statement->bindParam(':premium', $premium, PDO::PARAM_BOOL);
     $statement->bindParam(':username', $username, PDO::PARAM_STR);
     $statement->bindParam(':password', $password, PDO::PARAM_STR);
     $statement->bindParam(':bio', $bio, PDO::PARAM_STR);
