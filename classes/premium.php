@@ -47,4 +47,9 @@ class Premium extends User
         }
 
     }
+
+    public function __toString()
+    {
+        return "$this->username has a password, $this->password, and says: $this->biography";
+    }
 }

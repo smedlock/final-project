@@ -4,6 +4,7 @@
 error_reporting(E_ALL);
 require_once ('vendor/autoload.php');
 require_once ('model/db-functions.php');
+require_once ('model/login.php');
 include ('model/validate.php');
 
 // Instantiate base, set debug and start session
@@ -15,6 +16,7 @@ $f3->set('DEBUG', 3);
 $dbh = connect();
 
 $f3->route('GET /', function(){
+    echo $_SESSION['member'];
     $template = new Template();
     echo $template->render('views/home.html');
 });
@@ -94,8 +96,9 @@ $f3->route('GET|POST /login', function(){
         }
         else
         {
-            print_r($success);
+            $_SESSION['member'] = $success;
         }
+
     }
     $template = new Template();
     echo $template->render('views/login.html');

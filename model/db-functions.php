@@ -57,27 +57,6 @@ function findUser($username)
     return $result;
 }
 
-function login($username, $password)
-{
-    global $dbh;
-    $sql = "SELECT * FROM `snake-members` WHERE username = :username AND password = :password";
-    $statement = $dbh->prepare($sql);
-    $statement->bindParam(':username', $username, PDO::PARAM_STR);
-    $statement->bindParam(':password', $password, PDO::PARAM_STR);
-
-    $statement->execute();
-    $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-
-    if ($result->num_rows == 0)
-    {
-        echo "User doesn't exist!";
-    }
-    else
-    {
-        return $result;
-    }
-}
-
 function addUser($premium, $username, $password, $bio)
 {
     global $dbh;
