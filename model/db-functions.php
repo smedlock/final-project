@@ -6,6 +6,7 @@ require '/home/epadilla/final-config.php';
  * - Get users by high score, for normal member scoreboard
  * - Get users by total snake length, for premium member scoreboard
  * - Get user by username, if it exists, for username validation
+ * - Delete user by username
  */
 
 function connect()
@@ -43,17 +44,38 @@ function findUser($username)
 {
     global $dbh;
     // Define query
-    $sql= "SELECT * FROM snake-members WHERE username = $username";
+    $sql= "SELECT * FROM `snake-members` WHERE username = :username";
     // Prepare statement
     $statement = $dbh->prepare($sql);
     // Bind parameters
-
+    $statement->bindParam(':username', $username, PDO::PARAM_STR);
     // Execute statement
     $statement->execute();
     // Return results
-    $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+    $result = $statement->fetch();
 
     return $result;
+}
+
+function login($username, $password)
+{
+    global $dbh;
+    $sql = "SELECT * FROM `snake-members` WHERE username = :username AND password = :password";
+    $statement = $dbh->prepare($sql);
+    $statement->bindParam(':username', $username, PDO::PARAM_STR);
+    $statement->bindParam(':password', $password, PDO::PARAM_STR);
+
+    $statement->execute();
+    $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    if ($result->num_rows == 0)
+    {
+        echo "User doesn't exist!";
+    }
+    else
+    {
+        return $result;
+    }
 }
 
 function addUser($premium, $username, $password, $bio)

@@ -11,7 +11,14 @@ $errors = array();
 
 function isValidUsername($username)
 {
+    global $errors;
     // A username is valid if it is not already in the table
+    $result = findUser($username);
+
+    if(!empty($result))
+    {
+        $errors['username'] = "That name is already taken.";
+    }
 }
 
 function isValidPassword($password, $confirmPass)
@@ -20,7 +27,7 @@ function isValidPassword($password, $confirmPass)
     // it contains a capital, a lowercase, a number, and is
     // a minimum of 8 characters
     global $errors;
-    $pattern = "(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}";
+    $pattern = "/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/";
     if($password != $confirmPass)
     {
         $errors['password'] = "Password fields do not match. Please confirm your password.";
@@ -32,9 +39,10 @@ function isValidPassword($password, $confirmPass)
     }
 }
 
-function validate($password, $confirm)
+function validate($username, $password, $confirm)
 {
     global $errors;
+    isValidUsername($username);
     isValidPassword($password, $confirm);
     return $errors;
 }

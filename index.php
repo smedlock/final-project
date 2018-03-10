@@ -29,9 +29,12 @@ $f3->route('GET|POST /register', function($f3){
         $premium = isset($_POST['premium']);
 
        // validate username & password
-        $errors = validate($password, $confirm);
+        $errors = validate($username, $password, $confirm);
         $success = (sizeof($errors) == 0);
 
+        // Set values to hive for templating
+        $f3->set('username', $username);
+        $f3->set('bio', $bio);
         echo $success;
         print_r($errors);
 
@@ -50,7 +53,7 @@ $f3->route('GET|POST /register', function($f3){
             $_SESSION['member'] = $member;
 
 
-            $f3->reroute("./results");
+           $f3->reroute("./results");
         }
     }
    $template = new Template();
@@ -74,9 +77,28 @@ $f3->route('GET|POST /results', function() {
     }
 
 
-   print_r($success);
+   print_r($member);
+});
 
+$f3->route('GET|POST /login', function(){
+    if(isset($_POST['submit']))
+    {
+        $username = $_POST['username'];
+        $password = $_POST['password'];
 
+        $success = login($username, $password);
+
+        if(empty($success))
+        {
+
+        }
+        else
+        {
+            print_r($success);
+        }
+    }
+    $template = new Template();
+    echo $template->render('views/login.html');
 });
 
 $f3->run();
