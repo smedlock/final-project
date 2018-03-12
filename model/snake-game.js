@@ -1,31 +1,63 @@
+const UP = 0;
+const RIGHT = 1;
+const DOWN = 2;
+const LEFT = 3;
+
 function gameBoard(widthX, heightY, cellSize, gameBoardId) {
     this.widthX = widthX;
     this.heightY = heightY;
-    this.headPosX = 0;
-    this.headPosY = 0;
-    this.lastDirection = 1; // right
-    this.snakeCells = []; // the front of the array is the back of the snake
-    this.food;// = new snakeCell(5, 5, 20, 1, "red");
+    this.headPosX;
+    this.headPosY;
+    this.lastDirection = RIGHT; // right
+    this.scores;
+    this.snakeCells; // the front of the array is the back of the snake
+    this.food;
     this.cellSize = cellSize;
     this.gameBoardElement = document.getElementById(gameBoardId);
     this.gameBoardElement.style.background = "black";
     this.gameBoardElement.style.width = this.widthX * cellSize + "px";
     this.gameBoardElement.style.height = this.heightY * cellSize + "px";
 
+    this.reset = function() {
+
+        // Empty the snake and set to a length of 6 cells
+        $("#gameboard").empty();
+        this.snakeCells = [];
+        for (i = 0; i < 6; i++) {
+            this.snakeCells.push(new snakeCell(5 + i, 10, 20, 1, "green"));
+        }
+
+        // Reset snake head position
+        var lastElem = this.snakeCells[board.snakeCells.length - 1];
+        this.headPosX = lastElem.x;
+        this.headPosY = lastElem.y;
+
+        // Reset food position
+        this.food = new snakeCell(5, 5, 20, 1, "red");
+        this.moveFood();
+
+        // Set direction to right
+        direction = 1;
+
+        // Get a score board ready for the new game
+        this.scores = new scoreBoard(this.snakeCells.length);
+    }
+
     this.move = function(direction) {
-        if (direction == 0) {
+        if (direction == UP) {
             this.headPosY -= 1;
-            this.lastDirection = 0;
-        } else if (direction == 1) {
+            this.lastDirection = UP;
+        } else if (direction == RIGHT) {
             this.headPosX += 1;
-            this.lastDirection = 1;
-        } else if (direction == 2) {
+            this.lastDirection = RIGHT;
+        } else if (direction == DOWN) {
             this.headPosY += 1;
-            this.lastDirection = 2;
+            this.lastDirection = DOWN;
         } else {
             this.headPosX -= 1;
-            this.lastDirection = 3;
+            this.lastDirection = LEFT;
         }
+        this.scores.cellsTraveled++;
     }
 
     this.collision = function() {
@@ -58,75 +90,54 @@ function gameBoard(widthX, heightY, cellSize, gameBoardId) {
         }
         this.food.changeXY(newX, newY);
     }
-
-    this.reset = function() {
-        $("#gameboard").empty();
-
-        board.snakeCells = [];
-
-        for (i = 0; i < 6; i++) {
-            this.snakeCells.push(new snakeCell(5 + i, 10, 20, 1, "green"));
-        }
-
-        var lastElem = this.snakeCells[board.snakeCells.length - 1];
-        this.headPosX = lastElem.x;
-        this.headPosY = lastElem.y;
-
-        this.food = new snakeCell(5, 5, 20, 1, "red");
-
-        this.moveFood();
-
-        direction = 1;
-    }
 }
 
 function snakeCell(x, y, cellSize, gap, background) {
     this.x = x;
     this.y = y;
+    this.gap = gap;
     this.element = document.createElement("div");
     this.element.style.width = cellSize - 2 * gap + "px";
     this.element.style.height = cellSize - 2 * gap + "px";
     this.element.style.background = background;
     this.element.style.position = "absolute";
-    this.element.style.top = this.y * cellSize + 1 + "px";
-    this.element.style.left = this.x * cellSize + 1 + "px";
+    this.element.style.top = this.y * cellSize + gap + "px";
+    this.element.style.left = this.x * cellSize + gap + "px";
     $("#gameboard").append(this.element);
 
     this.changeXY = function(x, y) {
         this.x = x;
         this.y = y;
-        this.element.style.top = 1 + y * cellSize + 'px';
-        this.element.style.left = 1 + x * cellSize + 'px';
+        this.element.style.top = this.gap + y * cellSize + 'px';
+        this.element.style.left = this.gap + x * cellSize + 'px';
     }
 }
 
-console.log("we triedfafafa");
+function scoreBoard(snakeLength) {
+    this.snakeLength = snakeLength;
+    this.foodEaten = 0;
+    this.cellsTraveled = 0;
+}
+
+console.log("we tried1");
 
 var board = new gameBoard(20, 20, 20, "gameboard");
-var direction = 1; // 0 up, 1 right, 2 down, 3 left
-
-// just creating 6 snake blocks
-//for (i = 0; i < 6; i++) {
-//    board.snakeCells.push(new snakeCell(5 + i, 10, 20, 1, "green"));
-//}
+var direction = RIGHT; // 0 up, 1 right, 2 down, 3 left
 
 $(document).keydown(function(event) {
-    if (event.keyCode == 38 && board.lastDirection != 2) { // up
-        direction = 0;
-    } else if (event.keyCode == 39 && board.lastDirection != 3) { // right
-        direction = 1;
-    } else if (event.keyCode == 40 && board.lastDirection != 0) { // down
-        direction = 2;
-    } else if (event.keyCode == 37 && board.lastDirection != 1) { // left
-        direction = 3;
+    if (event.keyCode == 38 && board.lastDirection != DOWN) { // up
+        direction = UP;
+    } else if (event.keyCode == 39 && board.lastDirection != LEFT) { // right
+        direction = RIGHT;
+    } else if (event.keyCode == 40 && board.lastDirection != UP) { // down
+        direction = DOWN;
+    } else if (event.keyCode == 37 && board.lastDirection != RIGHT) { // left
+        direction = LEFT;
     }
 });
 
 function startGame() {
     board.reset();
-    //var elem = board.snakeCells[board.snakeCells.length - 1];
-    //board.headPosX = elem.x;
-    //board.headPosY = elem.y;
     var id = setInterval(frame, 100);
     function frame() {
 
@@ -138,10 +149,16 @@ function startGame() {
         if (board.onFood()) {
             board.snakeCells.push(new snakeCell(board.headPosX, board.headPosY, 20, 1, "green"));
 
+            board.scores.foodEaten++;
+            board.scores.snakeLength++;
+            console.log('food eaten: ' + board.scores.foodEaten);
+            console.log('snake length: ' + board.scores.snakeLength);
+            console.log('cells traveled: ' + board.scores.cellsTraveled);
+
             // place food on a random cell
             board.moveFood();
         } else {
-            snakeElem = board.snakeCells.shift();
+            snakeElem = board.snakeCells.shift(); // This is an O(n) operation that should be changed eventually
             snakeElem.changeXY(board.headPosX, board.headPosY);
             board.snakeCells.push(snakeElem);
         }
@@ -149,7 +166,6 @@ function startGame() {
             console.log(board.headPosX + " " + board.headPosY);
             elementToRemove = board.snakeCells.pop();
             elementToRemove.element.parentNode.removeChild(elementToRemove.element);
-            board.reset();
             clearInterval(id);
         }
     }
