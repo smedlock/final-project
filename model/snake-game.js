@@ -166,6 +166,17 @@ function startGame() {
             console.log(board.headPosX + " " + board.headPosY);
             elementToRemove = board.snakeCells.pop();
             elementToRemove.element.parentNode.removeChild(elementToRemove.element);
+
+            // AJAX
+            $.post(
+                "model/update-score.php",
+                {snakelength:board.scores.snakeLength},
+                function(result) {
+                    alert(result);
+                }
+            )
+            // AJAX
+
             clearInterval(id);
         }
     }
