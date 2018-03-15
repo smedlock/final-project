@@ -65,5 +65,6 @@ function logout($member)
     session_unset();
     session_destroy();
     $_SESSION['active'] = false;
+    $_SESSION['member'] = null;
 
 }
