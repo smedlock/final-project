@@ -1,10 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8" name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Import Bootstrap -->
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="styles/styles.css">
     <meta charset="UTF-8">
     <title>User Profile</title>
 </head>
 <body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="./">Snake Game</a>
+            <a href="./login">
+                <button type="button" class="btn btn-default navbar-btn navbar-right">
+                    Sign In
+                </button>
+            </a>
+            <a href="./register">
+                <button type="button" class="btn btn-default navbar-btn navbar-right">
+                    Sign Up
+                </button>
+            </a>
+        </div>
+    </div>
+</nav>
+
+<div class="col-md-12">
+    <p><b>Username: </b> {{ @username }}</p>
+    <p><b>Highscore: </b> {{ @highscore }}</p>
+    <check if="{{ @member instanceof Premium}}">
+        <p><b>Total Snake Length: </b> {{ @totalSnake }}</p>
+    </check>
+    <p><b>Biography: </b> {{ @bio }}</p>
+
+</div>
 
 </body>
 </html>

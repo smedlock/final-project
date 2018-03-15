@@ -55,31 +55,40 @@ $f3->route('GET|POST /register', function($f3){
             $_SESSION['member'] = serialize($member);
 
 
-           $f3->reroute("./results");
+           $f3->reroute("./profile");
         }
     }
    $template = new Template();
    echo $template->render('views/register.html');
 });
 
-$f3->route('GET|POST /results', function() {
+$f3->route('GET|POST /profile', function($f3) {
 
    $member = unserialize($_SESSION['member']);
    $username = $member->getUsername();
    $password = $member->getPassword();
    $bio = $member->getBiography();
+   $highscore = $member->getHighscore();
 
     if($member instanceof Premium)
     {
         $success = addUser(1, $username, $password, $bio);
+        $f3->set('totalSnake', $member->getTotalSnake());
     }
     else
     {
         $success = addUser(0, $username, $password, $bio);
     }
 
+    // Set for templating
+    $f3->set('member', $member);
+    $f3->set('username', $username);
+    $f3->set('bio', $bio);
+    $f3->set('highscore', $highscore);
 
-   print_r($member);
+    print_r($member);
+    $template = new Template();
+    echo $template->render('views/profile.html');
 });
 
 $f3->route('GET|POST /login', function(){

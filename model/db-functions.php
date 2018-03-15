@@ -59,22 +59,30 @@ function findUser($username)
 
 function addUser($premium, $username, $password, $bio)
 {
-    global $dbh;
-    // Define query
-    $sql = "INSERT INTO `snake-members` (premium, username, password, bio) VALUES (:premium, :username, :password, :bio)";
+    $result = findUser($username);
+    if(empty($result))
+    {
+        global $dbh;
+        // Define query
+        $sql = "INSERT INTO `snake-members` (premium, username, password, bio) VALUES (:premium, :username, :password, :bio)";
 
-    // Prepare statement
-    $statement = $dbh->prepare($sql);
+        // Prepare statement
+        $statement = $dbh->prepare($sql);
 
-    // Bind parameters
-    $statement->bindParam(':premium', $premium, PDO::PARAM_BOOL);
-    $statement->bindParam(':username', $username, PDO::PARAM_STR);
-    $statement->bindParam(':password', $password, PDO::PARAM_STR);
-    $statement->bindParam(':bio', $bio, PDO::PARAM_STR);
+        // Bind parameters
+        $statement->bindParam(':premium', $premium, PDO::PARAM_BOOL);
+        $statement->bindParam(':username', $username, PDO::PARAM_STR);
+        $statement->bindParam(':password', $password, PDO::PARAM_STR);
+        $statement->bindParam(':bio', $bio, PDO::PARAM_STR);
 
-    // Execute statement
-    $success = $statement->execute();
+        // Execute statement
+        $success = $statement->execute();
 
+        // Return results
+        return $success;
+    }
+
+<<<<<<< HEAD
     // Return results
    return $success;
 }
@@ -97,4 +105,6 @@ function updateUserScore($username, $snakeLength)
 
     // Return results
     return $success;
+=======
+>>>>>>> finished profile implementation without styling
 }
