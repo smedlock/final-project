@@ -82,29 +82,19 @@ function addUser($premium, $username, $password, $bio)
         return $success;
     }
 
-<<<<<<< HEAD
-    // Return results
-   return $success;
-}
-
-function updateUserScore($username, $snakeLength)
-{
-    global $dbh;
-    // Define query
-    $sql = "UPDATE `snake-members` SET longsnake = :longsnake WHERE username = :username";
-
-    // Prepare statement
-    $statement = $dbh->prepare($sql);
-
-    // Bind parameters
-    $statement->bindParam(':username', $username, PDO::PARAM_STR);
-    $statement->bindParam(':longsnake', $snakeLength, PDO::PARAM_INT);
-
-    // Execute statement
-    $success = $statement->execute();
-
-    // Return results
-    return $success;
-=======
->>>>>>> finished profile implementation without styling
+    function updateUserScore($username, $snakeLength)
+    {
+        global $dbh;
+        // Define query
+        $sql = "UPDATE `snake-members` SET longsnake = :longsnake WHERE username = :username";
+        // Prepare statement
+        $statement = $dbh->prepare($sql);
+        // Bind parameters
+        $statement->bindParam(':username', $username, PDO::PARAM_STR);
+        $statement->bindParam(':longsnake', $snakeLength, PDO::PARAM_INT);
+        // Execute statement
+        $success = $statement->execute();
+        // Return results
+        return $success;
+    }
 }

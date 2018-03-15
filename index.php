@@ -16,7 +16,7 @@ $f3->set('DEBUG', 3);
 $dbh = connect();
 
 $f3->route('GET /', function(){
-    echo unserialize($_SESSION['member']);
+    echo $_SESSION['member'];
     $template = new Template();
     echo $template->render('views/home.html');
 });
@@ -52,7 +52,7 @@ $f3->route('GET|POST /register', function($f3){
                 $member = new User($username, $password, $bio);
             }
 
-            $_SESSION['member'] = serialize($member);
+            $_SESSION['member'] = $member;
 
 
            $f3->reroute("./profile");
@@ -64,7 +64,7 @@ $f3->route('GET|POST /register', function($f3){
 
 $f3->route('GET|POST /profile', function($f3) {
 
-   $member = unserialize($_SESSION['member']);
+   $member = $_SESSION['member'];
    $username = $member->getUsername();
    $password = $member->getPassword();
    $bio = $member->getBiography();
@@ -99,18 +99,26 @@ $f3->route('GET|POST /login', function(){
 
         $success = login($username, $password);
 
-        if(empty($success))
+        if(!empty($success))
         {
-
+            $_SESSION['member'] = $success;
+            $_SESSION['active'] = true;
         }
         else
         {
-            $_SESSION['member'] = serialize($success);
+            $_SESSION['active'] = false;
         }
 
     }
     $template = new Template();
     echo $template->render('views/login.html');
+});
+
+$f3->route("GET /logout", function($f3){
+   $member = $_SESSION['member'];
+
+   logout($member);
+   $f3->reroute('/');
 });
 
 $f3->run();

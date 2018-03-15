@@ -59,3 +59,11 @@ function login($username, $password)
         return $member;
     }
 }
+
+function logout($member)
+{
+    session_unset();
+    session_destroy();
+    $_SESSION['active'] = false;
+
+}
