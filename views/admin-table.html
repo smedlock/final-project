@@ -24,9 +24,19 @@
     </tr>
     </thead>
     <tbody>
-    <!-- <repeat group="users" key="username" val="user">
-
-    </repeat> -->
+    <repeat group="users" val="user">
+        <tr>
+            <td>{{ @user['user-id'] }}</td>
+            <td>{{ @user['username'] }}</td>
+            <td>{{ @user['highscore'] }}</td>
+            <check if="{{ @user['premium'] }} == 1">
+                <true>Yes</true>
+                <false>No</false>
+            </check>
+            <td>{{ @user['totalSnake'] }}</td>
+            <td id="{{ @user['username'] }}"><button>Remove</button></td>
+        </tr>
+    </repeat>
     </tbody>
 
 </table>
@@ -36,7 +46,7 @@
 <script>
     $(document).ready(function() {
         $('#example').DataTable();
-    } );
+    });
 </script>
 </body>
 </html>

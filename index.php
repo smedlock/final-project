@@ -37,8 +37,13 @@ $f3->route('GET /', function($f3){
     echo $template->render('views/home.html');
 });
 
-$f3->route('GET /admin', function(){
+$f3->route('GET /admin', function($f3){
+    $users = getUsers();
 
+    $f3->set('users', $users);
+
+    $template = new Template();
+    echo $template->render('views/admin-table.html');
 });
 
 $f3->route('GET|POST /register', function($f3){
@@ -78,6 +83,10 @@ $f3->route('GET|POST /register', function($f3){
            $f3->reroute("./profile");
         }
     }
+
+    $active = $_SESSION['active'];
+    $f3->set('loggedin', $active);
+
    $template = new Template();
    echo $template->render('views/register.html');
 });
@@ -106,7 +115,9 @@ $f3->route('GET|POST /profile', function($f3) {
     $f3->set('bio', $bio);
     $f3->set('highscore', $highscore);
 
-    print_r($member);
+    $active = $_SESSION['active'];
+    $f3->set('loggedin', $active);
+
     $template = new Template();
     echo $template->render('views/profile.html');
 });
