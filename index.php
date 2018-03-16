@@ -34,6 +34,10 @@ $f3->route('GET /', function($f3){
     echo $template->render('views/home.html');
 });
 
+$f3->route('GET /admin', function(){
+
+});
+
 $f3->route('GET|POST /register', function($f3){
     if(isset($_POST['submit']))
     {
