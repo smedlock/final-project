@@ -8,12 +8,13 @@
 
 require_once ('../model/db-functions.php');
 include_once('../classes/user.php');
+include_once('../classes/premium.php');
+
 session_start();
 
 //print_r($_SESSION);
 
 $snakeLength = $_POST['snakelength'];
-
 // If there is a logged in user, check high score to update
 if ($_SESSION['member']) {
     $dbh = connect();
@@ -22,12 +23,14 @@ if ($_SESSION['member']) {
     $username = $member->getUsername();
     $oldScore = findUser($username)['longsnake'];
 
-    if ($snakeLength > $oldScore) {
-        updateUserScore($username, $snakeLength);
+    if ($member instanceof Premium) {
+        if ($snakeLength > $oldScore) {
+            updateUserScore($username, $snakeLength);
 
-        echo 'UPDATED';
-    } else {
-        echo 'NOT UPDATED';
+            echo 'UPDATED';
+        } else {
+            echo 'NOT UPDATED';
+        }
     }
 
 }
