@@ -117,7 +117,7 @@ function addUser($premium, $username, $password, $bio)
     }
 }
 
-function updateUserScore($username, $snakeLength)
+function updateUserScore($username, $highScore)
 {
     global $dbh;
     // Define query
@@ -126,7 +126,26 @@ function updateUserScore($username, $snakeLength)
     $statement = $dbh->prepare($sql);
     // Bind parameters
     $statement->bindParam(':username', $username, PDO::PARAM_STR);
-    $statement->bindParam(':highscore', $snakeLength, PDO::PARAM_INT);
+    $statement->bindParam(':highscore', $highScore, PDO::PARAM_INT);
+    // Execute statement
+    $success = $statement->execute();
+    // Return results
+    return $success;
+}
+
+function updateTravelAndTotal($username, $cellsTraveled, $totalsnake) {
+    echo $username . "\n";
+    echo $cellsTraveled . "\n";
+    echo $totalsnake . "\n";
+    global $dbh;
+    // Define query
+    $sql = "UPDATE `snake-members` SET cellsTraveled = :cellsTraveled, totalsnake = :totalsnake WHERE username = :username";
+    // Prepare statement
+    $statement = $dbh->prepare($sql);
+    // Bind parameters
+    $statement->bindParam(':username', $username, PDO::PARAM_STR);
+    $statement->bindParam(':cellsTraveled', $cellsTraveled, PDO::PARAM_INT);
+    $statement->bindParam(':totalsnake', $totalsnake, PDO::PARAM_INT);
     // Execute statement
     $success = $statement->execute();
     // Return results

@@ -42,12 +42,12 @@ function login($username, $password)
         // Check if the user is premium to instantiate correct class
         if($premium == 1)
         {
-            $longsnake = $result['longsnake'];
+            $cellsTraveled = $result['cellsTraveled'];
             $totalsnake = $result['totalsnake'];
 
             $member = new Premium($username, $password, $bio);
             $member->setHighScore($highscore);
-            $member->setLongSnake($longsnake);
+            $member->setCellsTraveled($cellsTraveled);
             $member->setTotalSnake($totalsnake);
         }
         else

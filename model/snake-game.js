@@ -237,7 +237,9 @@ function startGame() {
             // AJAX
             $.post(
                 "model/update-score.php",
-                {snakelength:board.scores.snakeLength},
+                {snakelength:board.scores.snakeLength,
+                 cellsTraveled:board.scores.cellsTraveled,
+                 foodEaten:board.scores.foodEaten},
                 function(result) {
                     alert(result);
                 }
