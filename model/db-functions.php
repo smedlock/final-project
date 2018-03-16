@@ -126,7 +126,7 @@ function updateUserScore($username, $snakeLength)
     $statement = $dbh->prepare($sql);
     // Bind parameters
     $statement->bindParam(':username', $username, PDO::PARAM_STR);
-    $statement->bindParam(':longsnake', $snakeLength, PDO::PARAM_INT);
+    $statement->bindParam(':highscore', $snakeLength, PDO::PARAM_INT);
     // Execute statement
     $success = $statement->execute();
     // Return results
