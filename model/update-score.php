@@ -41,7 +41,6 @@ if ($_SESSION['member']) {
 
     }
 }
-
 echo 'snake length: ' . $snakeLength . "\n";
 echo 'cells traveled: ' . $cellsTraveled . "\n";
 echo 'food eaten: ' . $foodEaten;

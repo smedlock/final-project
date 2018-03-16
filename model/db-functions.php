@@ -1,6 +1,21 @@
 <?php
 require $_SERVER['DOCUMENT_ROOT'] . "/../final-config.php";
 
+/*
+ * Create table statement
+ *
+ * CREATE TABLE `snake-members`
+ * (`premium` tinyint(1) NOT NULL DEFAULT 0,
+ * `username` VARCHAR(30) NOT NULL,
+ * `password` VARCHAR(30) NOT NULL,
+ * `bio` VARCHAR(150) NULL DEFAULT NULL,
+ * `highscore` INT NOT NULL DEFAULT 0,
+ * `cellsTraveled` BIGINT NOT NULL DEFAULT 0,
+ * `totalsnake` INT NULL DEFAULT 0,
+ * `user-id` INT NOT NULL AUTO_INCREMENT,
+ * PRIMARY KEY (`user-id`))
+ */
+
 function connect()
 {
     try {
