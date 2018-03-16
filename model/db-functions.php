@@ -121,7 +121,7 @@ function updateUserScore($username, $snakeLength)
 {
     global $dbh;
     // Define query
-    $sql = "UPDATE `snake-members` SET longsnake = :longsnake WHERE username = :username";
+    $sql = "UPDATE `snake-members` SET highscore = :highscore WHERE username = :username";
     // Prepare statement
     $statement = $dbh->prepare($sql);
     // Bind parameters
@@ -131,4 +131,9 @@ function updateUserScore($username, $snakeLength)
     $success = $statement->execute();
     // Return results
     return $success;
+}
+
+function updatePremiunmScore($username, $snakeLength)
+{
+
 }
