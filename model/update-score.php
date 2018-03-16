@@ -18,7 +18,7 @@ $snakeLength = $_POST['snakelength'];
 if ($_SESSION['member']) {
     $dbh = connect();
 
-    $member = unserialize($_SESSION['member']);
+    $member = $_SESSION['member'];
     $username = $member->getUsername();
     $oldScore = findUser($username)['longsnake'];
 
@@ -31,5 +31,5 @@ if ($_SESSION['member']) {
     }
 
 }
-
+echo $_SERVER['DOCUMENT_ROOT'];
 echo $snakeLength;

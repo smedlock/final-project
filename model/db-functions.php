@@ -1,5 +1,5 @@
 <?php
-require '/home/epadilla/final-config.php';
+require $_SERVER['DOCUMENT_ROOT'] . "/../final-config.php";
 
 function connect()
 {
