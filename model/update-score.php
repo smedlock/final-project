@@ -8,16 +8,14 @@
 
 require_once ('../model/db-functions.php');
 include_once('../classes/user.php');
+include_once('../classes/premium.php');
 session_start();
 
 //print_r($_SESSION);
 
 $snakeLength = $_POST['snakelength'];
-<<<<<<< HEAD
 $cellsTraveled = $_POST['cellsTraveled'];
 $foodEaten = $_POST['foodEaten'];
-=======
->>>>>>> 9e160b43e47469d29a679cebcab8fd26b0e518cb
 
 // If there is a logged in user, check high score to update
 if ($_SESSION['member']) {
@@ -26,8 +24,6 @@ if ($_SESSION['member']) {
     $member = $_SESSION['member'];
 
 
-
-<<<<<<< HEAD
     if ($member instanceof Premium) {
 
         $user = findUser($member->getUsername());
@@ -37,24 +33,13 @@ if ($_SESSION['member']) {
         $oldCellsTraveled = $user['cellsTraveled'];
         $oldTotalSnake = $user['totalsnake'];
 
-        echo 'old score: ' . $oldScore . "\n";
-        echo 'old cells traveled: ' . $oldCellsTraveled . "\n";
-        echo 'old total snake: ' . $oldTotalSnake . "\n";
-
         updateTravelAndTotal($username, $oldCellsTraveled + $cellsTraveled, $oldTotalSnake + $foodEaten);
 
         if ($snakeLength > $oldScore) {
             updateUserScore($username, $snakeLength);
-=======
-    if ($snakeLength > $oldScore) {
-        updateUserScore($username, $snakeLength);
->>>>>>> 9e160b43e47469d29a679cebcab8fd26b0e518cb
+        }
 
-        echo 'UPDATED';
-    } else {
-        echo 'NOT UPDATED';
     }
-
 }
 
 echo 'snake length: ' . $snakeLength . "\n";

@@ -134,9 +134,6 @@ function updateUserScore($username, $highScore)
 }
 
 function updateTravelAndTotal($username, $cellsTraveled, $totalsnake) {
-    echo $username . "\n";
-    echo $cellsTraveled . "\n";
-    echo $totalsnake . "\n";
     global $dbh;
     // Define query
     $sql = "UPDATE `snake-members` SET cellsTraveled = :cellsTraveled, totalsnake = :totalsnake WHERE username = :username";
