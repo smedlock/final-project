@@ -15,8 +15,21 @@ $f3->set('DEBUG', 3);
 // Open database connection
 $dbh = connect();
 
-$f3->route('GET /', function(){
-    echo $_SESSION['member'];
+// instantiate the active and admin values to false for navbar
+$_SESSION['active'] = false;
+$_SESSION['admin'] = false;
+
+
+$f3->route('GET /', function($f3){
+    $premiumScores = getPremiumScores();
+    $highscores = getHighscores();
+
+    $f3->set('premiumScores', $premiumScores);
+    $f3->set('highscores', $highscores);
+
+    //print_r($premiumScores);
+    //print_r($highscores);
+
     $template = new Template();
     echo $template->render('views/home.html');
 });
@@ -115,9 +128,7 @@ $f3->route('GET|POST /login', function(){
 });
 
 $f3->route("GET /logout", function($f3){
-   $member = $_SESSION['member'];
-
-   logout($member);
+   logout();
    $f3->reroute('/');
 });
 

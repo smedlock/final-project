@@ -1,14 +1,6 @@
 <?php
 require '/home/epadilla/final-config.php';
 
-/*
- * To-do:
- * - Get users by high score, for normal member scoreboard
- * - Get users by total snake length, for premium member scoreboard
- * - Get user by username, if it exists, for username validation
- * - Delete user by username
- */
-
 function connect()
 {
     try {
@@ -23,11 +15,54 @@ function connect()
     }
 }
 
+function removeUser($username)
+{
+    // Delete user by username
+    global $dbh;
+    $sql = "DELETE FROM `snake-members` WHERE username = :username";
+    $statement = $dbh->prepare($sql);
+    $statement->bindParam(':username', $username,
+                          PDO::PARAM_STR);
+    $statement->execute();
+    $result = $statement->fetch();
+
+    return $result;
+}
+
+function getHighscores()
+{
+   // Get users by high score, for normal member scoreboard
+    global $dbh;
+    $sql = "SELECT username, highscore FROM `snake-members` 
+            ORDER BY highscore LIMIT 10";
+
+    $statement = $dbh->prepare($sql);
+    $statement->execute();
+    $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    return $result;
+
+}
+
+function getPremiumScores()
+{
+    // Get users by total snake length, for premium member scoreboard
+    global $dbh;
+    $sql = "SELECT username, highscore, totalsnake FROM `snake-members` 
+            WHERE premium = 1 ORDER BY totalsnake LIMIT 10";
+
+    $statement = $dbh->prepare($sql);
+    $statement->execute();
+    $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    return $result;
+}
+
 function getUsers()
 {
     global $dbh;
     // Define query
-    $sql= "SELECT * FROM snake-members";
+    $sql= "SELECT * FROM `snake-members`";
     // Prepare statement
     $statement = $dbh->prepare($sql);
     // Bind parameters
@@ -60,8 +95,7 @@ function findUser($username)
 function addUser($premium, $username, $password, $bio)
 {
     $result = findUser($username);
-    if(empty($result))
-    {
+    if (empty($result)) {
         global $dbh;
         // Define query
         $sql = "INSERT INTO `snake-members` (premium, username, password, bio) VALUES (:premium, :username, :password, :bio)";
@@ -81,20 +115,20 @@ function addUser($premium, $username, $password, $bio)
         // Return results
         return $success;
     }
+}
 
-    function updateUserScore($username, $snakeLength)
-    {
-        global $dbh;
-        // Define query
-        $sql = "UPDATE `snake-members` SET longsnake = :longsnake WHERE username = :username";
-        // Prepare statement
-        $statement = $dbh->prepare($sql);
-        // Bind parameters
-        $statement->bindParam(':username', $username, PDO::PARAM_STR);
-        $statement->bindParam(':longsnake', $snakeLength, PDO::PARAM_INT);
-        // Execute statement
-        $success = $statement->execute();
-        // Return results
-        return $success;
-    }
+function updateUserScore($username, $snakeLength)
+{
+    global $dbh;
+    // Define query
+    $sql = "UPDATE `snake-members` SET longsnake = :longsnake WHERE username = :username";
+    // Prepare statement
+    $statement = $dbh->prepare($sql);
+    // Bind parameters
+    $statement->bindParam(':username', $username, PDO::PARAM_STR);
+    $statement->bindParam(':longsnake', $snakeLength, PDO::PARAM_INT);
+    // Execute statement
+    $success = $statement->execute();
+    // Return results
+    return $success;
 }

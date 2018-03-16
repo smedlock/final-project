@@ -60,7 +60,7 @@ function login($username, $password)
     }
 }
 
-function logout($member)
+function logout()
 {
     session_unset();
     session_destroy();
