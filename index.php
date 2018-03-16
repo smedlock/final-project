@@ -16,8 +16,8 @@ $f3->set('DEBUG', 3);
 $dbh = connect();
 
 // instantiate the active and admin values to false for navbar
-$_SESSION['active'] = false;
-$_SESSION['admin'] = false;
+
+// Initial set to the hive
 
 
 $f3->route('GET /', function($f3){
@@ -26,6 +26,9 @@ $f3->route('GET /', function($f3){
 
     $f3->set('premiumScores', $premiumScores);
     $f3->set('highscores', $highscores);
+
+    $active = $_SESSION['active'];
+    $f3->set('loggedin', $active);
 
     //print_r($premiumScores);
     //print_r($highscores);
@@ -108,7 +111,7 @@ $f3->route('GET|POST /profile', function($f3) {
     echo $template->render('views/profile.html');
 });
 
-$f3->route('GET|POST /login', function(){
+$f3->route('GET|POST /login', function($f3){
     if(isset($_POST['submit']))
     {
         $username = $_POST['username'];
@@ -120,12 +123,14 @@ $f3->route('GET|POST /login', function(){
         {
             $_SESSION['member'] = $success;
             $_SESSION['active'] = true;
+            $f3->set('active', $_SESSION['active']);
+
+            $f3->reroute('/');
         }
         else
         {
             $_SESSION['active'] = false;
         }
-
     }
     $template = new Template();
     echo $template->render('views/login.html');
@@ -133,6 +138,10 @@ $f3->route('GET|POST /login', function(){
 
 $f3->route("GET /logout", function($f3){
    logout();
+   $_SESSION['active'] = false;
+   $_SESSION['admin'] = false;
+
+   $f3->set('active', $_SESSION['active']);
    $f3->reroute('/');
 });
 

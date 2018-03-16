@@ -10,23 +10,46 @@
     <title>Login</title>
 </head>
 <body>
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="./">Snake Game</a>
-            <a href="./login">
-                <button type="button" class="btn btn-default navbar-btn navbar-right">
-                    Sign In
-                </button>
-            </a>
-            <a href="./register">
-                <button type="button" class="btn btn-default navbar-btn navbar-right">
-                    Sign Up
-                </button>
-            </a>
-        </div>
-    </div>
-</nav>
+<check if="{{ @loggedin }}">
+    <true>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="./">Snake Game</a>
+                    <a href="./profile">
+                        <button type="button" class="btn btn-default navbar-btn navbar-right">
+                            Your Profile
+                        </button>
+                    </a>
+                    <a href="./logout">
+                        <button type="button" class="btn btn-default navbar-btn navbar-right">
+                            Logout
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </true>
+    <false>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="./">Snake Game</a>
+                    <a href="./login">
+                        <button type="button" class="btn btn-default navbar-btn navbar-right">
+                            Sign In
+                        </button>
+                    </a>
+                    <a href="./register">
+                        <button type="button" class="btn btn-default navbar-btn navbar-right">
+                            Sign Up
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </false>
+</check>
 <form action="./login" method="POST">
     <label>Username: <input type="text" name="username"></label><br>
     <label>Password: <input type="password" name="password"></label><br>
