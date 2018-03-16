@@ -31,5 +31,5 @@ if ($_SESSION['member']) {
     }
 
 }
-echo $_SERVER['DOCUMENT_ROOT'];
+
 echo $snakeLength;
