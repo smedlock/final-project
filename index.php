@@ -39,9 +39,7 @@ $f3->route('GET /', function($f3){
 
 $f3->route('GET /admin', function($f3){
     $users = getUsers();
-
     $f3->set('users', $users);
-
     $template = new Template();
     echo $template->render('views/admin-table.html');
 });

@@ -1,21 +1,6 @@
 <?php
 require $_SERVER['DOCUMENT_ROOT'] . "/../final-config.php";
 
-/*
- * Create table statement
- *
- * CREATE TABLE `snake-members`
- * (`premium` tinyint(1) NOT NULL DEFAULT 0,
- * `username` VARCHAR(30) NOT NULL,
- * `password` VARCHAR(30) NOT NULL,
- * `bio` VARCHAR(150) NULL DEFAULT NULL,
- * `highscore` INT NOT NULL DEFAULT 0,
- * `cellsTraveled` BIGINT NOT NULL DEFAULT 0,
- * `totalsnake` INT NULL DEFAULT 0,
- * `user-id` INT NOT NULL AUTO_INCREMENT,
- * PRIMARY KEY (`user-id`))
- */
-
 function connect()
 {
     try {
@@ -49,7 +34,7 @@ function getHighscores()
    // Get users by high score, for normal member scoreboard
     global $dbh;
     $sql = "SELECT username, highscore FROM `snake-members` 
-            ORDER BY highscore LIMIT 10";
+            ORDER BY highscore LIMIT 7";
 
     $statement = $dbh->prepare($sql);
     $statement->execute();
@@ -64,7 +49,7 @@ function getPremiumScores()
     // Get users by total snake length, for premium member scoreboard
     global $dbh;
     $sql = "SELECT username, highscore, totalsnake FROM `snake-members` 
-            WHERE premium = 1 ORDER BY totalsnake LIMIT 10";
+            WHERE premium = 1 ORDER BY totalsnake LIMIT 7";
 
     $statement = $dbh->prepare($sql);
     $statement->execute();
@@ -132,7 +117,7 @@ function addUser($premium, $username, $password, $bio)
     }
 }
 
-function updateUserScore($username, $highScore)
+function updateUserScore($username, $snakeLength)
 {
     global $dbh;
     // Define query
@@ -141,23 +126,7 @@ function updateUserScore($username, $highScore)
     $statement = $dbh->prepare($sql);
     // Bind parameters
     $statement->bindParam(':username', $username, PDO::PARAM_STR);
-    $statement->bindParam(':highscore', $highScore, PDO::PARAM_INT);
-    // Execute statement
-    $success = $statement->execute();
-    // Return results
-    return $success;
-}
-
-function updateTravelAndTotal($username, $cellsTraveled, $totalsnake) {
-    global $dbh;
-    // Define query
-    $sql = "UPDATE `snake-members` SET cellsTraveled = :cellsTraveled, totalsnake = :totalsnake WHERE username = :username";
-    // Prepare statement
-    $statement = $dbh->prepare($sql);
-    // Bind parameters
-    $statement->bindParam(':username', $username, PDO::PARAM_STR);
-    $statement->bindParam(':cellsTraveled', $cellsTraveled, PDO::PARAM_INT);
-    $statement->bindParam(':totalsnake', $totalsnake, PDO::PARAM_INT);
+    $statement->bindParam(':longsnake', $snakeLength, PDO::PARAM_INT);
     // Execute statement
     $success = $statement->execute();
     // Return results
