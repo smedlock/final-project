@@ -15,11 +15,6 @@ $f3->set('DEBUG', 3);
 // Open database connection
 $dbh = connect();
 
-// instantiate the active and admin values to false for navbar
-
-// Initial set to the hive
-
-
 $f3->route('GET /', function($f3){
     $premiumScores = getPremiumScores();
     $highscores = getHighscores();
@@ -29,9 +24,6 @@ $f3->route('GET /', function($f3){
 
     $active = $_SESSION['active'];
     $f3->set('loggedin', $active);
-
-    //print_r($premiumScores);
-    //print_r($highscores);
 
     $template = new Template();
     echo $template->render('views/home.html');
@@ -60,19 +52,21 @@ $f3->route('GET|POST /register', function($f3){
         // Set values to hive for templating
         $f3->set('username', $username);
         $f3->set('bio', $bio);
-        echo $success;
-        print_r($errors);
+        $f3->set('premium', $premium);
 
         if($success == 1)
         {
+            // Hash the password
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
             // create member object
             if($premium)
             {
-                $member = new Premium($username, $password, $bio);
+                $member = new Premium_User($username, $hashed_password, $bio);
             }
             else
             {
-                $member = new User($username, $password, $bio);
+                $member = new User($username, $hashed_password, $bio);
             }
 
             $_SESSION['member'] = $member;
@@ -97,14 +91,14 @@ $f3->route('GET|POST /profile', function($f3) {
    $bio = $member->getBiography();
    $highscore = $member->getHighscore();
 
-    if($member instanceof Premium)
+    if($member instanceof Premium_User)
     {
-        $success = addUser(1, $username, $password, $bio);
+        addUser(1, $username, $password, $bio);
         $f3->set('totalSnake', $member->getTotalSnake());
     }
     else
     {
-        $success = addUser(0, $username, $password, $bio);
+        addUser(0, $username, $password, $bio);
     }
 
     // Set for templating

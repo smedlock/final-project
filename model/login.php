@@ -9,10 +9,9 @@
 function login($username, $password)
 {
     global $dbh;
-    $sql = "SELECT * FROM `snake-members` WHERE username = :username AND password = :password";
+    $sql = "SELECT * FROM `snake-members` WHERE username = :username";
     $statement = $dbh->prepare($sql);
     $statement->bindParam(':username', $username, PDO::PARAM_STR);
-    $statement->bindParam(':password', $password, PDO::PARAM_STR);
 
     $statement->execute();
     $result = $statement->fetch(PDO::FETCH_ASSOC);
@@ -23,39 +22,38 @@ function login($username, $password)
     }
     else
     {
-        print_r($result);
-        //echo "NEW LINE";
         // create a new member object with the values pulled from the database
-
-        $username = $result['username'];
-        $password = $result['password'];
+        $DBusername = $result['username'];
+        $DBpassword = $result['password'];
         $bio = $result['bio'];
-        $premium = $result['premium'];
+        $premium = $result['Premium_User'];
         $highscore = $result['highscore'];
 
-     /*   echo $username;
-        echo $password;
-        echo $bio;
-        echo $premium;
-        echo $highscore; */
-
-        // Check if the user is premium to instantiate correct class
-        if($premium == 1)
+        // Verify password hash is correct
+        if(password_verify($password, $DBpassword))
         {
-            $totalsnake = $result['totalsnake'];
+            // Check if the user is premium to instantiate correct class
+            if($premium == 1)
+            {
+                $totalsnake = $result['totalsnake'];
 
-            $member = new Premium($username, $password, $bio);
-            $member->setHighScore($highscore);
-            $member->setTotalSnake($totalsnake);
+                $member = new Premium_User($DBusername, $DBpassword, $bio);
+                $member->setHighScore($highscore);
+                $member->setTotalSnake($totalsnake);
+            }
+            else
+            {
+                $member = new User($DBusername, $DBpassword, $bio);
+                $member->setHighScore($highscore);
+            }
+
+            $_SESSION['active'] = true;
+            return $member;
         }
         else
         {
-            $member = new User($username, $password, $bio);
-            $member->setHighScore($highscore);
+            echo "Password incorrect!";
         }
-
-        $_SESSION['active'] = true;
-        return $member;
     }
 }
 
