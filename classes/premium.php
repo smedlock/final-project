@@ -7,7 +7,7 @@ class Premium extends User
     protected $biography;
     protected $highScore;
     private $totalSnake;
-    private $cellsTraveled;
+
 
     // Does not have a separate constructor from Member, so will
     // automatically call parent constructor
@@ -26,26 +26,6 @@ class Premium extends User
     public function setTotalSnake($totalSnake)
     {
         $this->totalSnake += $totalSnake;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCellsTraveled()
-    {
-        return $this->cellsTraveled;
-    }
-
-    /**
-     * @param mixed $cellsTraveled
-     */
-    public function setCellsTraveled($cellsTraveled)
-    {
-        if($this->cellsTraveled < $cellsTraveled)
-        {
-            $this->cellsTraveled = $cellsTraveled;
-        }
-
     }
 
     public function __toString()

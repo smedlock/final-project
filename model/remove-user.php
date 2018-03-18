@@ -6,11 +6,13 @@
  * Time: 2:09 PM
  */
 require_once ('../model/db-functions.php');
+require_once('../model/login.php');
 include_once ('../classes/user.php');
 include_once ('../classes/premium.php');
+session_start();
 
 // Make sure a user is logged in
-if ($_SESSION['active'])
+if ($_SESSION['active'] == 1)
 {
     $dbh = connect();
 
@@ -18,20 +20,18 @@ if ($_SESSION['active'])
     $username = $member->getUsername();
 
     // First, make sure the user to be removed is in the list
-    $remove = findUser($_POST['user']);
+    $remove = $_POST['user'];
 
-    // If the result is in the database
-    if(!empty($remove))
+    // Check that the member logged in and the removed user are the same
+    if($username == $remove)
     {
-        // Check that the member and the removed user are the same
-        if($username == $remove['username'])
-        {
-            removeUser($username);
-            logout();
-        }
+        logout();
+        removeUser($username);
+        echo "$username deleted!";
     }
-    echo $username;
+    else
+    {
+        echo "You may only delete your own user profile.";
+    }
 }
-
-
 

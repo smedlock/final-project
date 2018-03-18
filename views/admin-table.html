@@ -33,8 +33,8 @@
                 <true><td>Yes</td></true>
                 <false><td>No</td></false>
             </check>
-            <td>{{ @user['totalSnake'] }}</td>
-            <td id="{{ @user['username'] }}"><button>Remove</button></td>
+            <td>{{ @user['totalsnake'] }}</td>
+            <td><button  id="{{ @user['username'] }}">Remove</button></td>
         </tr>
     </repeat>
     </tbody>
@@ -48,11 +48,15 @@
         $('#example').DataTable();
     }); */
 
-    $("button").click(function(){
-       var user = $(this).id;
-        $.post( "model/remove-user.php", function(result){
-
-        });
+    $("button").click(function() {
+      var user = $(this).attr("id");
+        $.post(
+            "./model/remove-user.php",
+            {user:user},
+            function(result){
+                alert(result);
+            }
+        );
     });
 </script>
 </body>

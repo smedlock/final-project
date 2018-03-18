@@ -132,8 +132,3 @@ function updateUserScore($username, $snakeLength)
     // Return results
     return $success;
 }
-
-function updatePremiunmScore($username, $snakeLength)
-{
-
-}
