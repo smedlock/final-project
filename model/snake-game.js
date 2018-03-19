@@ -5,7 +5,7 @@ const LEFT = 3;
 const CELL_SIZE = 20; // size of each cell in pixels
 const BOARD_WIDTH = 20; // width of board in cells
 const BOARD_HEIGHT = 20; // height of board in cells
-const FRAME_INTERVAL = 100 // time interval for frames in milliseconds
+const FRAME_INTERVAL = 100; // time interval for frames in milliseconds
 
 /**
  * this object stores dimensions and other objects within the game board.
@@ -214,7 +214,7 @@ function startGame() {
         $("#gamestart").hide();
 
         //board.reset();
-        var id = setInterval(frame, 100);
+        var id = setInterval(frame, FRAME_INTERVAL);
 
         /**
          * Game loop
