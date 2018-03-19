@@ -183,8 +183,6 @@ function scoreBoard(snakeLength) {
     this.cellsTraveled = 0;
 }
 
-console.log("we tried123456");
-
 var board = new gameBoard(BOARD_WIDTH, BOARD_HEIGHT, CELL_SIZE, "gameboard");
 var direction = RIGHT;
 
@@ -213,7 +211,6 @@ function startGame() {
         running = true;
         $("#gamestart").hide();
 
-        //board.reset();
         var id = setInterval(frame, FRAME_INTERVAL);
 
         /**
@@ -261,8 +258,6 @@ function startGame() {
                 )
                 // AJAX
 
-                //running = false;
-                //board.reset();
                 $("#gamestart").html("Reset Game");
                 $("#gamestart").show();
 
@@ -277,7 +272,6 @@ function startGame() {
 }
 
 $("#gamestart").click(startGame);
-
 
 // prevent arrow keys from scrolling
 window.addEventListener("keydown", function(e) {

@@ -107,7 +107,7 @@
         $('#adminTable').DataTable();
     });
 
-    $("button").click(function() {
+    $("td > button").click(function() {
       var user = $(this).attr("id");
         $.post(
             "./model/remove-user.php",
