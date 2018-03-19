@@ -24,21 +24,24 @@
 
      $member = $_SESSION['member'];
 
+     $user = findUser($member->getUsername());
+     $username = $user['username'];
+     $oldScore = $user['highscore'];
+
+     if ($snakeLength > $oldScore) {
+         updateUserScore($username, $snakeLength);
+     }
+
      if($member instanceof Premium_User)
      {
-         $user = findUser($member->getUsername());
 
-         $username = $user['username'];
-         $oldScore = $user['highscore'];
          $oldCellsTraveled = $user['cellsTraveled'];
          $oldTotalSnake = $user['totalsnake'];
 
          updateTravelAndTotal($username, $oldCellsTraveled + $cellsTraveled,
                              $oldTotalSnake + $foodEaten);
 
-         if ($snakeLength > $oldScore) {
-             updateUserScore($username, $snakeLength);
-         }
+
      }
  }
 
