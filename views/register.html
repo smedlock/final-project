@@ -59,31 +59,41 @@
         </nav>
     </false>
 </check>
+<div class="container d-flex flex-row">
+    <div class="col-md-12 text-center">
+        <h2>Welcome to Snake Game!</h2>
+        <p>Please fill out the information below.</p>
+    </div>
+</div>
+<div class="container d-flex flex-row">
     <div class="col-md-12">
         <form action="./register" method="POST">
-           <div class="col-md-6">
-               <label>Username: </label><br>
-               <input type="text" id="username" name="username" value="{{ @username }}">
-               <br>
-               <label>Password: </label><br>
-               <input type="password" id="password" name="password"
-                      pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                      title="Must contain at least one number and one uppercase and
-                      lowercase letter, and at least 8 or more characters" required>
-               <br>
-               <label>Re-Enter Password: </label><br>
-               <input type="password" id="confirmPass" name="confirmPass">
-
-           </div>
             <div class="col-md-6">
-                <label>Bio: </label>
+                <label><span class="label label-default">Username: </span></label><br>
+                <input type="text" id="username" name="username" class="form-control" value="{{ @username }}">
+                <br>
+                    <label><span class="label label-default">Password: </span></label><br>
+                <input type="password" id="password" name="password" class="form-control"
+                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                       title="Must contain at least one number and one uppercase and
+                      lowercase letter, and at least 8 or more characters" required>
+                <br>
+                <label><span class="label label-default">Re-Enter Password: </span></label><br>
+                <input type="password" id="confirmPass" name="confirmPass" class="form-control">
+
+            </div>
+            <div class="col-md-6">
+                <label><span class="label label-default">Bio: </span></label>
                 <textarea id="bio" name="bio" class="form-control" rows="5">{{ @bio }}</textarea>
                 <br>
-                <label><input type="checkbox" name="premium" id="premium"> Premium Member?</label>
+                <label><input type="checkbox" name="premium" id="premium">
+                    <span class="label label-default">Premium Member?</span></label>
             </div>
             <input type="submit" name="submit" value="Submit">
         </form>
     </div>
+</div>
+
 
 </body>
 </html>

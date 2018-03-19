@@ -58,10 +58,20 @@
         </nav>
     </false>
 </check>
-<form action="./login" method="POST">
-    <label>Username: <input type="text" name="username"></label><br>
-    <label>Password: <input type="password" name="password"></label><br>
-    <input type="submit" name="submit" value="Login">
-</form>
+<div class="container d-flex flex-row">
+    <div class="col-md-12 text-center">
+        <h2>Welcome Back!</h2>
+        <p>Please log in below.</p>
+    </div>
+</div>
+<div class="container d-flex flex-row">
+    <div class="col-md-8 center-div">
+        <form action="./login" method="POST" class="form-group">
+            <label><span class="label label-default">Username:</span> <input type="text" name="username" class="form-control"></label><br>
+            <label class="label label-default">Password: <input type="password" name="password" class="form-control"></label><br>
+            <input type="submit" name="submit" value="Login">
+        </form>
+    </div>
+</div>
 </body>
 </html>
