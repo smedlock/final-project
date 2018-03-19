@@ -30,6 +30,9 @@ $f3->route('GET /', function($f3){
 });
 
 $f3->route('GET /admin', function($f3){
+    $active = $_SESSION['active'];
+    $f3->set('loggedin', $active);
+
     $users = getUsers();
     $f3->set('users', $users);
     $template = new Template();
@@ -37,6 +40,9 @@ $f3->route('GET /admin', function($f3){
 });
 
 $f3->route('GET|POST /register', function($f3){
+    $active = $_SESSION['active'];
+    $f3->set('loggedin', $active);
+
     if(isset($_POST['submit']))
     {
         $username = $_POST['username'];
@@ -83,13 +89,16 @@ $f3->route('GET|POST /register', function($f3){
    echo $template->render('views/register.html');
 });
 
-$f3->route('GET|POST /profile', function($f3) {
+$f3->route('GET|POST /profile', function($f3)
+{
+    $active = $_SESSION['active'];
+    $f3->set('loggedin', $active);
 
-   $member = $_SESSION['member'];
-   $username = $member->getUsername();
-   $password = $member->getPassword();
-   $bio = $member->getBiography();
-   $highscore = $member->getHighscore();
+    $member = $_SESSION['member'];
+    $username = $member->getUsername();
+    $password = $member->getPassword();
+    $bio = $member->getBiography();
+    $highscore = $member->getHighscore();
 
     if($member instanceof Premium_User)
     {
