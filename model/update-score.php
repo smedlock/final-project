@@ -17,6 +17,12 @@
  $cellsTraveled = $_POST['cellsTraveled'];
  $foodEaten = $_POST['foodEaten'];
 
+ echo 'GAME OVER' . "\n\n";
+ echo 'Here are your stats for this game:' . "\n";
+ echo 'score: ' . $snakeLength . "\n";
+ echo 'cells traveled: ' . $cellsTraveled . "\n";
+ echo 'food eaten: ' . $foodEaten;
+
  // If there is a logged in user, check high score to update
  if($_SESSION['active'] == 1)
  {
@@ -30,6 +36,8 @@
 
      if ($snakeLength > $oldScore) {
          updateUserScore($username, $snakeLength);
+
+         echo "\nCongratulations, You got a new high score!";
      }
 
      if($member instanceof Premium_User)
@@ -44,7 +52,3 @@
 
      }
  }
-
- echo 'snake length: ' . $snakeLength . "\n";
- echo 'cells traveled: ' . $cellsTraveled . "\n";
- echo 'food eaten: ' . $foodEaten;
