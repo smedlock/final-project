@@ -36,7 +36,7 @@ function login($username, $password)
         $DBusername = $result['username'];
         $DBpassword = $result['password'];
         $bio = $result['bio'];
-        $premium = $result['Premium_User'];
+        $premium = $result['premium'];
         $highscore = $result['highscore'];
 
         // Verify password hash is correct
@@ -45,10 +45,12 @@ function login($username, $password)
             // Check if the user is premium to instantiate correct class
             if($premium == 1)
             {
+                $cellsTraveled = $result['cellsTraveled'];
                 $totalsnake = $result['totalsnake'];
 
                 $member = new Premium_User($DBusername, $DBpassword, $bio);
                 $member->setHighScore($highscore);
+                $member->setCellsTraveled($cellsTraveled);
                 $member->setTotalSnake($totalsnake);
             }
             else

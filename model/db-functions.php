@@ -1,4 +1,17 @@
 <?php
+/*
+ * Create Table Statement:
+ * CREATE TABLE `snake-members`
+ * (`premium` tinyint(1) NOT NULL DEFAULT 0,
+ * `username` VARCHAR(30) NOT NULL,
+ * `password` VARCHAR(255) NOT NULL,
+ * `bio` VARCHAR(150) NULL DEFAULT NULL,
+ * `highscore` INT NOT NULL DEFAULT 0,
+ * `cellsTraveled` BIGINT NOT NULL DEFAULT 0,
+ * `totalsnake` INT NULL DEFAULT 0,
+ * `user-id` INT NOT NULL AUTO_INCREMENT,
+ * PRIMARY KEY (`user-id`))
+ */
 require $_SERVER['DOCUMENT_ROOT'] . "/../final-config.php";
 
 /**
@@ -182,6 +195,32 @@ function updateUserScore($username, $snakeLength)
     // Bind parameters
     $statement->bindParam(':username', $username, PDO::PARAM_STR);
     $statement->bindParam(':highscore', $snakeLength, PDO::PARAM_INT);
+    // Execute statement
+    $success = $statement->execute();
+    // Return results
+    return $success;
+}
+
+/**
+ * Updates cellsTraveled and totalSnake. Validation for whether the
+ * user is premium happens elsewhere.
+ *
+ * @param $username the user whose scores will be updated
+ * @param $cellsTraveled the number of cells added to the current value for cellsTraveled
+ * @param $totalsnake the snake length added to the current snake length
+ * @return bool
+ */
+function updateTravelAndTotal($username, $cellsTraveled, $totalsnake)
+{
+    global $dbh;
+    // Define query
+    $sql = "UPDATE `snake-members` SET cellsTraveled = :cellsTraveled, totalsnake = :totalsnake WHERE username = :username";
+    // Prepare statement
+    $statement = $dbh->prepare($sql);
+    // Bind parameters
+    $statement->bindParam(':username', $username, PDO::PARAM_STR);
+    $statement->bindParam(':cellsTraveled', $cellsTraveled, PDO::PARAM_INT);
+    $statement->bindParam(':totalsnake', $totalsnake, PDO::PARAM_INT);
     // Execute statement
     $success = $statement->execute();
     // Return results
