@@ -2,6 +2,10 @@ const UP = 0;
 const RIGHT = 1;
 const DOWN = 2;
 const LEFT = 3;
+const CELL_SIZE = 20; // size of each cell in pixels
+const BOARD_WIDTH = 20; // width of board in cells
+const BOARD_HEIGHT = 20; // height of board in cells
+const FRAME_INTERVAL = 100 // time interval for frames in milliseconds
 
 /**
  * this object stores dimensions and other objects within the game board.
@@ -16,7 +20,7 @@ function gameBoard(widthX, heightY, cellSize, gameBoardId) {
     this.heightY = heightY;
     this.headPosX;
     this.headPosY;
-    this.lastDirection = RIGHT; // right
+    this.lastDirection = RIGHT;
     this.scores;
     this.snakeCells; // the front of the array is the back of the snake
     this.food;
@@ -35,7 +39,7 @@ function gameBoard(widthX, heightY, cellSize, gameBoardId) {
         $("#gameboard").empty();
         this.snakeCells = [];
         for (i = 0; i < 6; i++) {
-            this.snakeCells.push(new snakeCell(5 + i, 10, 20, 1, "green"));
+            this.snakeCells.push(new snakeCell(3 + i, this.heightY / 2, this.cellSize, 1, "green"));
         }
 
         // Reset snake head position
@@ -44,7 +48,7 @@ function gameBoard(widthX, heightY, cellSize, gameBoardId) {
         this.headPosY = lastElem.y;
 
         // Reset food position
-        this.food = new snakeCell(5, 5, 20, 1, "red");
+        this.food = new snakeCell(5, 5, this.cellSize, 1, "red");
         this.moveFood();
 
         // Set direction to right
@@ -179,9 +183,9 @@ function scoreBoard(snakeLength) {
     this.cellsTraveled = 0;
 }
 
-console.log("we tried1");
+console.log("we tried123456");
 
-var board = new gameBoard(20, 20, 20, "gameboard");
+var board = new gameBoard(BOARD_WIDTH, BOARD_HEIGHT, CELL_SIZE, "gameboard");
 var direction = RIGHT;
 
 $(document).keydown(function(event) {
@@ -196,58 +200,79 @@ $(document).keydown(function(event) {
     }
 });
 
+board.reset();
+var running = false;
+
 /**
  * Starting point for the game.
  */
 function startGame() {
-    board.reset();
-    var id = setInterval(frame, 100);
 
-    /**
-     * Game loop
-     */
-    function frame() {
+    // prevent the user from starting the game if it is already running
+    if (!running) {
+        running = true;
+        $("#gamestart").hide();
 
-        // cases:   head is in empty space
-        //          head collides with wall or itself
-        //          head is on same cell as food
+        //board.reset();
+        var id = setInterval(frame, 100);
 
-        board.move(direction);
-        if (board.onFood()) {
-            board.snakeCells.push(new snakeCell(board.headPosX, board.headPosY, 20, 1, "green"));
+        /**
+         * Game loop
+         */
+        function frame() {
 
-            board.scores.foodEaten++;
-            board.scores.snakeLength++;
-            console.log('food eaten: ' + board.scores.foodEaten);
-            console.log('snake length: ' + board.scores.snakeLength);
-            console.log('cells traveled: ' + board.scores.cellsTraveled);
+            // cases:   head is in empty space
+            //          head collides with wall or itself
+            //          head is on same cell as food
 
-            // place food on a random cell
-            board.moveFood();
-        } else {
-            snakeElem = board.snakeCells.shift(); // This is an O(n) operation that should be changed eventually
-            snakeElem.changeXY(board.headPosX, board.headPosY);
-            board.snakeCells.push(snakeElem);
+            board.move(direction);
+            if (board.onFood()) {
+                board.snakeCells.push(new snakeCell(board.headPosX, board.headPosY, board.cellSize, 1, "green"));
+
+                board.scores.foodEaten++;
+                board.scores.snakeLength++;
+                console.log('food eaten: ' + board.scores.foodEaten);
+                console.log('snake length: ' + board.scores.snakeLength);
+                console.log('cells traveled: ' + board.scores.cellsTraveled);
+
+                // place food on a random cell
+                board.moveFood();
+            } else {
+                snakeElem = board.snakeCells.shift(); // This is an O(n) operation that should be changed eventually
+                snakeElem.changeXY(board.headPosX, board.headPosY);
+                board.snakeCells.push(snakeElem);
+            }
+            if (board.collision()) {
+                console.log(board.headPosX + " " + board.headPosY);
+                elementToRemove = board.snakeCells.pop();
+                elementToRemove.element.parentNode.removeChild(elementToRemove.element);
+
+                // AJAX
+                $.post(
+                    "model/update-score.php",
+                    {
+                        snakelength: board.scores.snakeLength,
+                        cellsTraveled: board.scores.cellsTraveled,
+                        foodEaten: board.scores.foodEaten
+                    },
+                    function (result) {
+                        alert(result);
+                    }
+                )
+                // AJAX
+
+                //running = false;
+                //board.reset();
+                $("#gamestart").html("Reset Game");
+                $("#gamestart").show();
+
+                clearInterval(id);
+            }
         }
-        if (board.collision()) {
-            console.log(board.headPosX + " " + board.headPosY);
-            elementToRemove = board.snakeCells.pop();
-            elementToRemove.element.parentNode.removeChild(elementToRemove.element);
-
-            // AJAX
-            $.post(
-                "model/update-score.php",
-                {snakelength:board.scores.snakeLength,
-                 cellsTraveled:board.scores.cellsTraveled,
-                 foodEaten:board.scores.foodEaten},
-                function(result) {
-                    alert(result);
-                }
-            )
-            // AJAX
-
-            clearInterval(id);
-        }
+    } else {
+        running = false;
+        board.reset();
+        $("#gamestart").html("Start Game!");
     }
 }
 
