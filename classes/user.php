@@ -1,4 +1,14 @@
 <?php
+/**
+ * The User class represents a user from the snake game website.
+ *
+ * The User class represents a normal member. It has four values;
+ * username, password, biography, and highscore.
+ *
+ * @author Raine Padilla <epadilla7@mail.greenriver.edu>
+ * @author Scott Medlock <smedlock@mail.greenriver.edu>
+ * @copyright 2018
+ */
 
 class User
 {
@@ -16,7 +26,9 @@ class User
     }
 
     /**
-     * @return mixed
+     * Retrieves the username value for the User object.
+     *
+     * @return String representing username.
      */
     public function getUsername()
     {
@@ -24,7 +36,10 @@ class User
     }
 
     /**
-     * @param mixed $username
+     * Changes the username value for the User object.
+     *
+     * @param String $username that the value should be changed to.
+     * @return void
      */
     public function setUsername($username)
     {
@@ -32,7 +47,9 @@ class User
     }
 
     /**
-     * @return mixed
+     * Retrieves the password value for the User object.
+     *
+     * @return String representing password.
      */
     public function getPassword()
     {
@@ -40,7 +57,10 @@ class User
     }
 
     /**
-     * @param mixed $password
+     * Changes the password value for the User object.
+     *
+     * @param String $password that the value should be changed to.
+     * @return void
      */
     public function setPassword($password)
     {
@@ -48,7 +68,9 @@ class User
     }
 
     /**
-     * @return string
+     * Retrieves the biography from the User object.
+     *
+     * @return String representing the bio.
      */
     public function getBiography()
     {
@@ -56,7 +78,10 @@ class User
     }
 
     /**
-     * @param string $biography
+     * Changes the biography value for the User object.
+     *
+     * @param String $biography that the value should be changed to.
+     * @return void
      */
     public function setBiography($biography)
     {
@@ -64,7 +89,9 @@ class User
     }
 
     /**
-     * @return int
+     * Retrieves the highscore for this User.
+     *
+     * @return int representing the highscore.
      */
     public function getHighScore()
     {
@@ -72,7 +99,11 @@ class User
     }
 
     /**
-     * @param int $highScore
+     * Changes the value for the highscore, but only if the
+     * new value is greater than the old one.
+     *
+     * @param int $highScore that might be the new value.
+     * @return void
      */
     public function setHighScore($highScore)
     {
@@ -83,6 +114,11 @@ class User
 
     }
 
+    /**
+     * The default method of printing this user.
+     *
+     * @return String representing the values for username, password and bio.
+     */
     public function __toString()
     {
         return "$this->username has a password, $this->password, and says: $this->biography";

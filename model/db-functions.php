@@ -34,7 +34,7 @@ function getHighscores()
    // Get users by high score, for normal member scoreboard
     global $dbh;
     $sql = "SELECT username, highscore FROM `snake-members` 
-            ORDER BY highscore LIMIT 7";
+            ORDER BY highscore DESC LIMIT 7";
 
     $statement = $dbh->prepare($sql);
     $statement->execute();
@@ -48,8 +48,8 @@ function getPremiumScores()
 {
     // Get users by total snake length, for premium member scoreboard
     global $dbh;
-    $sql = "SELECT username, highscore, totalsnake FROM `snake-members` 
-            WHERE premium = 1 ORDER BY totalsnake LIMIT 7";
+    $sql = "SELECT username, cellsTraveled, totalsnake FROM `snake-members` 
+            WHERE premium = 1 ORDER BY totalsnake DESC LIMIT 7";
 
     $statement = $dbh->prepare($sql);
     $statement->execute();
@@ -126,7 +126,7 @@ function updateUserScore($username, $snakeLength)
     $statement = $dbh->prepare($sql);
     // Bind parameters
     $statement->bindParam(':username', $username, PDO::PARAM_STR);
-    $statement->bindParam(':longsnake', $snakeLength, PDO::PARAM_INT);
+    $statement->bindParam(':highscore', $snakeLength, PDO::PARAM_INT);
     // Execute statement
     $success = $statement->execute();
     // Return results
