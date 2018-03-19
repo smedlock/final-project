@@ -21,7 +21,7 @@
  echo 'Here are your stats for this game:' . "\n";
  echo 'score: ' . $snakeLength . "\n";
  echo 'cells traveled: ' . $cellsTraveled . "\n";
- echo 'food eaten: ' . $foodEaten;
+ echo 'food consumed: ' . $foodEaten;
 
  // If there is a logged in user, check high score to update
  if($_SESSION['active'] == 1)
