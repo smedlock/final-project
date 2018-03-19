@@ -25,13 +25,25 @@ $f3->route('GET /', function($f3){
     $active = $_SESSION['active'];
     $f3->set('loggedin', $active);
 
+    if($active)
+    {
+        $member = $_SESSION['member'];
+        $f3->set('username', $member->getUsername());
+    }
+
     $template = new Template();
     echo $template->render('views/home.html');
 });
 
-$f3->route('GET /admin', function($f3){
+$f3->route('GET /users', function($f3){
     $active = $_SESSION['active'];
     $f3->set('loggedin', $active);
+
+    if($active)
+    {
+        $member = $_SESSION['member'];
+        $f3->set('username', $member->getUsername());
+    }
 
     $users = getUsers();
     $f3->set('users', $users);
@@ -42,6 +54,12 @@ $f3->route('GET /admin', function($f3){
 $f3->route('GET|POST /register', function($f3){
     $active = $_SESSION['active'];
     $f3->set('loggedin', $active);
+
+    if($active)
+    {
+        $member = $_SESSION['member'];
+        $f3->set('username', $member->getUsername());
+    }
 
     if(isset($_POST['submit']))
     {
@@ -93,6 +111,12 @@ $f3->route('GET|POST /profile', function($f3)
 {
     $active = $_SESSION['active'];
     $f3->set('loggedin', $active);
+
+    if($active)
+    {
+        $member = $_SESSION['member'];
+        $f3->set('username', $member->getUsername());
+    }
 
     $member = $_SESSION['member'];
     $username = $member->getUsername();
