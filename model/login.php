@@ -6,6 +6,16 @@
  * Time: 12:22 PM
  */
 
+/**
+ * A function that checks to see if the user exists in the database.
+ * If they do, it then checks that the password entered hashes to the
+ * same password in the database. If both cases are true, it creates
+ * a member object and logs the user in.
+ *
+ * @param $username The member's username
+ * @param $password the member's password
+ * @return Premium_User|User
+ */
 function login($username, $password)
 {
     global $dbh;
@@ -57,6 +67,10 @@ function login($username, $password)
     }
 }
 
+/**
+ * Destroys the current session and resets all values that
+ * might show a logged-in view.
+ */
 function logout()
 {
     session_unset();
