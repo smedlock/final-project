@@ -61,15 +61,26 @@
         </nav>
     </false>
 </check>
-<div class="col-md-12">
-    <p><b>Username: </b> {{ @username }}</p>
-    <p><b>Highscore: </b> {{ @highscore }}</p>
-    <check if="{{ @member instanceof Premium}}">
-        <p><b>Total Snake Length: </b> {{ @totalSnake }}</p>
-    </check>
-    <p><b>Biography: </b> {{ @bio }}</p>
-    <p><b>Premium Status: </b> {{ @premium }}</p>
-
+<div class="container">
+    <div class="col-md-8 center-div">
+        <div class="card">
+            <div class="card-header">
+                <h4>{{ @username }}'s Profile</h4>
+            </div>
+            <div class="card-block col-md-12">
+                <div class="col-md-6">
+                    <p><b>Username:</b> {{ @username }}</p>
+                    <p><b>Highscore:</b> {{ @highscore }}</p>
+                    <p><b>Premium Status: </b> {{ @premium }}</p>
+                </div>
+                <div class="col-md-6 pull-right">
+                    <p><b>Food Eaten:</b> {{ @totalSnake }}</p>
+                    <p><b>Cells Traveled:</b> {{ @cellsTraveled }}</p>
+                    <p><b>Biography: </b> {{ @bio }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 </body>

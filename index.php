@@ -94,9 +94,9 @@ $f3->route('GET|POST /register', function($f3){
             }
 
             $_SESSION['member'] = $member;
-            $_SESSION['active'] = 1;
 
-            $f3->reroute("./profile");
+
+           $f3->reroute("./profile");
         }
     }
 
@@ -122,18 +122,21 @@ $f3->route('GET|POST /profile', function($f3)
     $username = $member->getUsername();
     $password = $member->getPassword();
     $bio = $member->getBiography();
-    $highscore = findUser($username)['highscore'];
+    $highscore = $member->getHighscore();
 
     if($member instanceof Premium_User)
     {
         addUser(1, $username, $password, $bio);
         $f3->set('premium', 'Premium!');
         $f3->set('totalSnake', $member->getTotalSnake());
+        $f3->set('cellsTraveled', $member->getCellsTraveled());
     }
     else
     {
         addUser(0, $username, $password, $bio);
         $f3->set('premium', 'Regular User');
+        $f3->set('totalSnake', 'This field is for Premium users.');
+        $f3->set('cellsTraveled', 'This field is for Premium users.');
     }
 
     // Set for templating
