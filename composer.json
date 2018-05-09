@@ -10,7 +10,7 @@
             "email": "epadilla7@mail.greenriver.edu"
         }
     ],
-        "require": {
+    "require": {
         "bcosca/fatfree-core": "dev-master"
     },
     "autoload": {
