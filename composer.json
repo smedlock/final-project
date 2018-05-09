@@ -2,11 +2,9 @@
     "name": "snake-game",
     "authors":[
         {
-          "name": "Scott Medlock",
-          "email": "smedlock@mail.greenriver.edu"
-        }
-    ],
-    "authors":[
+            "name": "Scott Medlock",
+            "email": "smedlock@mail.greenriver.edu"
+        },
         {
             "name": "Raine Martin",
             "email": "epadilla7@mail.greenriver.edu"
